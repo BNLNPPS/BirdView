@@ -1,0 +1,91 @@
+{% extends "infra.html" %}
+{% load staticfiles %}
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <a class="nav-link" href="/infra">Condor Farms</a>
+  <a class="nav-link active" href="/infra/storage">Storage</a>
+  <a class="nav-link" href="/infra/status">Status</a>
+  <!--<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Location</th>
+      <th scope="col">Capacity</th>
+      <th scope="col">Available</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>/star/data01</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>/star/data02</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>/star/data03</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+    <tr>
+      <th scope="row">4</th>
+      <td>/star/data04</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+    <tr>
+      <th scope="row">5</th>
+      <td>/star/data05</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+    <tr>
+      <th scope="row">6</th>
+      <td>/star/data06</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+    <tr>
+      <th scope="row">7</th>
+      <td>/star/data07</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+    <tr>
+      <th scope="row">8</th>
+      <td>/star/data08</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+    <tr>
+      <th scope="row">9</th>
+      <td>/star/data09</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+    <tr>
+      <th scope="row">10</th>
+      <td>/star/data10</td>
+      <td>700 GB</td>
+      <td>200 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+
+{% endblock content %}

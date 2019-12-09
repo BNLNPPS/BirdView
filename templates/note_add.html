@@ -1,0 +1,53 @@
+{% extends "notification.html" %}
+{% load staticfiles %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <a class="nav-link" href="/notification">Notifications</a>
+  <a class="nav-link active" href="/notification/add">Add</a>
+  <a class="nav-link" href="/notification/remove">Remove</a>
+  <a class="nav-link" href="/notification/modify">Modify</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+<div class="card">
+  <h5 class="card-header">New Notification</h5>
+  <div class="card-body">
+  <form method="post">{% csrf_token %}
+    <div class="form-group">
+      <label for="note">Notification Name</label>
+      <input type="text" class="form-control" id="note" name="note" placeholder="Write the name of notification">
+    </div>
+    <div class="form-group">
+      <label for="users">Users</label>
+      <select multiple class="form-control" id="users" name="users">
+        {% for key,value in dictresult.items %}
+        <option>{{ value }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary" name="submit" value="submit" id="submit">Submit</button>
+  </form>
+  </div>
+  <h4></h4>
+    <div class="form-group">
+        <div class="input-group mb-3">
+            {% if messages %}
+              <ul class="messages">
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.extra_tags}}" role="alert">
+                      <strong>{{ message }}</strong>
+                  </div>
+                {% endfor %}
+              </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

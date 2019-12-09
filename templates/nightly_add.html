@@ -1,0 +1,134 @@
+{% extends "nightly.html" %}
+{% load staticfiles %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <!--<a class="nav-link" href="/nightly">Nightly Tests</a>-->
+  <!--<a class="nav-link active" href="/nightly/add">Add New Test</a>-->
+  <a class="nav-link" href="/nightly/precision">Precision</a>
+  <a class="nav-link" href="/nightly/premodify">Precision Modification</a>
+  <a class="nav-link" href="/nightly/status">Week Status</a>
+  <a class="nav-link" href="/nightly/plot">Dataset Change Identification</a>
+  <a class="nav-link" href="/nightly/compare">Dataset Compare</a>
+  <a class="nav-link" href="/nightly/library">Dataset w.r.t. Library</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Search Dataset from File Catalog
+    </div>
+    <div class="card-body">
+        <form>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">Year</span>
+              </div>
+              <input type="text" class="form-control" id="datayear1" placeholder="2017">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">Stream</span>
+              </div>
+              <input type="text" class="form-control" id="stream1" placeholder="st_upc">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">Collision</span>
+              </div>
+              <input type="text" class="form-control" id="collision" placeholder="AuAu54">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">Storage</span>
+              </div>
+              <input type="text" class="form-control" id="storage" placeholder="HPSS">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">File type</span>
+              </div>
+              <input type="text" class="form-control" id="filetype" placeholder="online_daq">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+</div>
+<h4></h4>
+<div class="card">
+    <div class="card-header">
+        Submit Data Request
+    </div>
+    <div class="card-body">
+        <form>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">Source</span>
+              </div>
+              <input type="text" class="form-control" id="src" placeholder="/star/u/starxxx/dev/input/xxxxx/">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">Destination</span>
+              </div>
+              <input type="text" class="form-control" id="dst" placeholder="/star/u/starxxx/dev/output/xxxxx/">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Data Request</button>
+        </form>
+    </div>
+</div>
+<h4></h4>
+<div class="card">
+    <div class="card-header">
+        Submit New Job to Nightly Test
+    </div>
+    <div class="card-body">
+        <form>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">Input Directory</span>
+              </div>
+              <input type="text" class="form-control" id="inputdir" placeholder="/star/u/starxxx/dev/input/xxxxx/">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">Output Directory</span>
+              </div>
+              <input type="text" class="form-control" id="outputdir" placeholder="/star/u/starxxx/dev/output/xxxxx/">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                  <span class="input-group-text" style="width: 150px;">Number of Events</span>
+              </div>
+              <input type="text" class="form-control" id="stream" placeholder="100">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block navbar %}
+<ul class="navbar-nav">
+    <!--<li class="nav-item">-->
+        <!--<a class="nav-link" href="/infra">Infrastructure</a>-->
+    <!--</li>-->
+    <!--<li class="nav-item">-->
+        <!--<a class="nav-link" href="/datarequest">Data Request</a>-->
+    <!--</li>-->
+    <li class="nav-item active">
+        <a class="nav-link" href="/nightly">Nightly Test</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/production">Production</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/notification">Notification</a>
+    </li>
+</ul>
+<!--<ul class="nav navbar-nav navbar-right">-->
+    <!--<li class="nav-item" >-->
+        <!--<a class="nav-link" href="/logout">Logout</a>-->
+    <!--</li>-->
+<!--</ul>-->
+{% endblock navbar %}
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <!--<a class="nav-link active" href="/nightly">Nightly Tests</a>-->
+  <!--<a class="nav-link" href="/nightly/add">Add New Test</a>-->
+  <a class="nav-link" href="/nightly/precision">Precision</a>
+  <a class="nav-link" href="/nightly/premodify">Precision Modification</a>
+  <a class="nav-link" href="/nightly/status">Week Status</a>
+  <a class="nav-link" href="/nightly/plot">Dataset Change Identification</a>
+  <a class="nav-link" href="/nightly/compare">Dataset Compare</a>
+  <a class="nav-link" href="/nightly/library">Dataset w.r.t. Library</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+<div class="Container">
+    <div class="row">
+        <img style="width:90%; height:90%;" src="{% static 'images/star_detector.gif' %}">
+    </div>
+</div>
+
+
+
+<!--<div class="card">-->
+    <!--<div class="card-header">-->
+        <!--Submission of Nightly Jobs-->
+    <!--</div>-->
+    <!--<div class="card-body">-->
+        <!--<form method="post">{% csrf_token %}-->
+          <!--<div class="form-group">-->
+              <!--&lt;!&ndash;<div class="form-group row">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="synch" class="col-sm-4 col-form-label"><h4>Synchronise All Tables</h4></label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="col-sm-8">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<button id="synch" type="submit" class="btn btn-primary" name="synch" value="synch">Synchronise</button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+              <!--<div class="form-group">-->
+                  <!--<div class="input-group mb-3">-->
+                        <!--{% if messages %}-->
+                            <!--<ul class="messages">-->
+                                <!--{% for message in messages %}-->
+                                    <!--<div class="alert alert-success" role="alert">-->
+                                        <!--<strong>{{ message }}</strong>-->
+                                    <!--</div>-->
+                                <!--{% endfor %}-->
+                            <!--</ul>-->
+                        <!--{% endif %}-->
+                  <!--</div>-->
+              <!--</div>-->
+          <!--</div>-->
+          <!--<div class="form-group">-->
+              <!--<div class="form-group row">-->
+                    <!--<label for="synch" class="col-sm-4 col-form-label"><h4>Submit Nightly Test</h4></label>-->
+                    <!--<div class="col-sm-4">-->
+                        <!--<select class="form-control" id="days">-->
+                            <!--<option selected> Choose the Day</option>-->
+                            <!--<option>Mon</option>-->
+                            <!--<option>Tue</option>-->
+                            <!--<option>Wen</option>-->
+                            <!--<option>Thu</option>-->
+                            <!--<option>Fri</option>-->
+                            <!--<option>Sat</option>-->
+                            <!--<option>Sun</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-4">-->
+                        <!--<button type="submit" class="btn btn-primary" name="submitjob" value="submitjob">Submit</button>-->
+                    <!--</div>-->
+              <!--</div>-->
+          <!--</div>-->
+        <!--</form>-->
+    <!--</div>-->
+<!--</div>-->
+{% endblock content %}

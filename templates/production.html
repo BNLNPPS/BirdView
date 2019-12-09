@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block navbar %}
+<ul class="navbar-nav">
+    <!--<li class="nav-item">-->
+        <!--<a class="nav-link" href="/infra">Infrastructure</a>-->
+    <!--</li>-->
+    <!--<li class="nav-item">-->
+        <!--<a class="nav-link" href="/datarequest">Data Request</a>-->
+    <!--</li>-->
+    <li class="nav-item">
+        <a class="nav-link" href="/nightly">Nightly Test</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/production">Production</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/notification">Notification</a>
+    </li>
+</ul>
+{% endblock navbar %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <a class="nav-link active" href="/production">Current Production</a>
+  <a class="nav-link" href="/production/picoprogress">PicoDst Conversion</a>
+  <a class="nav-link" href="/production/disks">Disk status</a>
+  <a class="nav-link" href="/production/chains">Chain Details</a>
+  <a class="nav-link" href="/production/prediction">Production Prediction</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Current Production Status
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+              <h4></h4>
+              <table class="table table-hover table-bordered" id="imptable">
+                <thead>
+                  <tr>
+                    <th scope="col">Trigger set name</th>
+                    <th scope="col">Production tag</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Number of Jobs</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for key,value in dict.items %}
+                  <tr>
+                      {% for item in value %}
+                          <td>{{ item }}</td>
+                      {% endfor %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

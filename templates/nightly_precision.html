@@ -1,0 +1,47 @@
+{% extends "nightly.html" %}
+{% load staticfiles %}
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <!--<a class="nav-link" href="/nightly">Nightly Tests</a>-->
+  <!--<a class="nav-link" href="/nightly/add">Add New Test</a>-->
+  <a class="nav-link active" href="/nightly/precision">Precision</a>
+  <a class="nav-link" href="/nightly/premodify">Precision Modification</a>
+  <a class="nav-link" href="/nightly/status">Week Status</a>
+  <a class="nav-link" href="/nightly/plot">Dataset Change Identification</a>
+  <a class="nav-link" href="/nightly/compare">Dataset Compare</a>
+  <a class="nav-link" href="/nightly/library">Dataset w.r.t. Library</a>
+  <!--<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Precision Details For
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Parameter</th>
+              <th scope="col">Precision (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for key,value in dict.items %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
+</div>
+
+
+{% endblock content %}

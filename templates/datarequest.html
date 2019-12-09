@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block navbar %}
+<ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link" href="/infra">Infrastructure</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/datarequest">Data Request</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/nightly">Nightly Test</a>
+    </li>
+    <!--<li class="nav-item">
+        <a class="nav-link" href="/jobsubmission">Job Submission</a>
+    </li>-->
+    <li class="nav-item">
+        <a class="nav-link" href="/notification">Notification</a>
+    </li>
+</ul>
+{% endblock navbar %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <a class="nav-link active" href="/datarequest">Data Search</a>
+  <!---<a class="nav-link active" href="/datarequest/search">Search</a>
+  <a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+
+<form>
+  <div class="form-group">
+    <label for="datayear">Year</label>
+    <input type="text" class="form-control" id="datayear" placeholder="2017">
+  </div>
+  <div class="form-group">
+    <label for="stream">Stream</label>
+    <input type="text" class="form-control" id="stream" placeholder="st_upc">
+  </div>
+  <div class="form-group">
+    <label for="collision">Collision</label>
+    <input type="text" class="form-control" id="collision" placeholder="AuAu54">
+  </div>
+  <div class="form-group">
+    <label for="storage">Storage</label>
+    <input type="text" class="form-control" id="storage" placeholder="HPSS">
+  </div>
+  <div class="form-group">
+    <label for="filetype">File type</label>
+    <input type="text" class="form-control" id="filetype" placeholder="online_daq">
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+{% endblock content %}

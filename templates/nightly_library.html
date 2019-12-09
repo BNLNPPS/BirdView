@@ -1,0 +1,156 @@
+{% extends "nightly.html" %}
+{% load staticfiles %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <!--<a class="nav-link" href="/nightly">Nightly Tests</a>-->
+  <!--<a class="nav-link" href="/nightly/add">Add New Test</a>-->
+  <a class="nav-link" href="/nightly/precision">Precision</a>
+  <a class="nav-link" href="/nightly/premodify">Precision Modification</a>
+  <a class="nav-link" href="/nightly/status">Week Status</a>
+  <a class="nav-link" href="/nightly/plot">Dataset Change Identification</a>
+  <a class="nav-link" href="/nightly/compare">Dataset Compare</a>
+  <a class="nav-link active" href="/nightly/library">Dataset w.r.t. Library</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Search for Specific Dataset
+    </div>
+    <div class="card-body">
+      <form method="post" >{% csrf_token %}
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Dataset</span>
+            </div>
+            <select class="form-control" onchange="FilterChains()" id="datasetid" name="datasetid" >
+                <option selected> Choose the Dataset</option>
+              {% for key,value in datasets.items %}
+                <option>{{ value }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Chain</span>
+            </div>
+            <select class="form-control" onchange="FilterYears()" id="chainid" name="chainid" >
+              <option selected> Choose the Chain</option>
+              <!---{% for key,value in chainlist.items %}
+                <option>{{ value }}</option>
+              {% endfor %} -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Year</span>
+            </div>
+            <select class="form-control" id="yearid" name="yearid">
+              <option selected> Choose the Year</option>
+              <!--{% for key,value in yearlist.items %}
+                <option>{{ value }}</option>
+              {% endfor %}-->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Parameter</span>
+            </div>
+            <select class="form-control" id="paraid" name="paraid">
+              <option selected> Choose the Parameter</option>
+              {% for key,value in parameters.items %}
+                <option>{{ key }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" name="graph" value="graph">Graph</button>
+        <h4></h4>
+        <div class="form-group">
+                  <div class="input-group mb-3">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-success" role="alert">
+                                        <strong>{{ message }}</strong>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                  </div>
+        </div>
+
+      </form>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block script %}
+<script>
+
+function FilterChains()
+{
+      var e = document.getElementById("datasetid");
+      var strdataset = e.options[e.selectedIndex].text;
+      var chainlist = [];
+      var count = 0;
+      {% for key,value in combodict.items %}
+          if("{{ value.1 }}" == strdataset)
+          {   chainlist[count]= "{{ value.2 }}";
+              count = count + 1;
+          }
+      {% endfor %}
+      //console.log(chainlist);
+      //document.getElementById("chainid").innerHTML = chainlist;
+
+      var select = document.getElementById("chainid");
+      for(chain in chainlist) {
+          select.options[select.options.length] = new Option(chainlist[chain]);
+      }
+}
+
+function FilterYears()
+{
+      var e = document.getElementById("datasetid");
+      var e1 = document.getElementById("chainid");
+      var strdataset = e.options[e.selectedIndex].text;
+      var strchain = e1.options[e1.selectedIndex].text;
+      console.log(strdataset);
+      console.log(strchain);
+      var yearlist = [];
+      var count = 0;
+      {% for key,value in combodict.items %}
+          if("{{ value.1 }}" == strdataset)
+              if("{{ value.2 }}" == strchain)
+              {     yearlist[count]= {{ value.3 }};
+                    count = count + 1;
+              }
+      {% endfor %}
+
+      console.log(yearlist)
+      var select = document.getElementById("yearid");
+      for(year in yearlist) {
+          select.options[select.options.length] = new Option(yearlist[year]);
+      }
+}
+
+</script>
+{% endblock script %}

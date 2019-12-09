@@ -1,0 +1,51 @@
+{% extends "production.html" %}
+{% load staticfiles %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <a class="nav-link" href="/production">Current Production</a>
+  <a class="nav-link" href="/production/picoprogress">PicoDst Conversion</a>
+  <a class="nav-link" href="/production/disks">Disk status</a>
+  <a class="nav-link active" href="/production/chains">Chain Details</a>
+  <a class="nav-link" href="/production/prediction">Production Prediction</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Chain Details
+    </div>
+    <div class="card-body">
+         <div class="table-responsive">
+              <h4></h4>
+              <table class="table table-hover table-bordered" id="imptable">
+                <thead>
+                  <tr>
+                    <th scope="col">Trigger set name</th>
+                    <th scope="col">Collision</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Production Tag</th>
+                    <th scope="col">Chain Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for key,value in dict.items %}
+                  <tr>
+                      {% for item in value %}
+                          <td>{{ item }}</td>
+                      {% endfor %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+         </div>
+    </div>
+</div>
+
+{% endblock content %}

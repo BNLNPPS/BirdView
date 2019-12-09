@@ -1,0 +1,49 @@
+{% extends "production.html" %}
+{% load staticfiles %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <a class="nav-link" href="/production">Current Production</a>
+  <a class="nav-link" href="/production/picoprogress">PicoDst Conversion</a>
+  <a class="nav-link active" href="/production/disks">Disk status</a>
+  <a class="nav-link" href="/production/chains">Chain Details</a>
+  <a class="nav-link" href="/production/prediction">Production Prediction</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Disk Status
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+              <h4></h4>
+              <table class="table table-hover table-bordered" id="imptable">
+                <thead>
+                  <tr>
+                    <th scope="col">Disk Name</th>
+                    <th scope="col">Percentage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for key,value in dict.items %}
+                  <tr>
+                      {% for item in value %}
+                          <td>{{ item }}</td>
+                      {% endfor %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+         </div>
+    </div>
+</div>
+
+
+{% endblock content %}

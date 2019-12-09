@@ -1,0 +1,212 @@
+{% extends "nightly.html" %}
+{% load staticfiles %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <!--<a class="nav-link" href="/nightly">Nightly Tests</a>-->
+  <!--<a class="nav-link" href="/nightly/add">Add New Test</a>-->
+  <a class="nav-link" href="/nightly/precision">Precision</a>
+  <a class="nav-link" href="/nightly/premodify">Precision Modification</a>
+  <a class="nav-link" href="/nightly/status">Week Status</a>
+  <a class="nav-link active" href="/nightly/plot">Dataset Change Identification</a>
+  <a class="nav-link" href="/nightly/compare">Dataset Compare</a>
+  <a class="nav-link" href="/nightly/library">Dataset w.r.t. Library</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+<div class="card">
+  <!--<h5 class="card-header">{{ datasetid }}</h5>
+  <h5 class="card-header">{{ chainid }}</h5>-->
+  <div class="card-body">
+    <form method="post">{% csrf_token %}
+        <!--<h4 id="datasetid">Dataset: <h6> {{ datasetid }} </h6></h4>
+        <h4>Chain: <h6> {{ chainid }} </h6></h4>
+        <table class="table table-hover table-bordered" >
+          <thead>
+            <tr>
+              <th scope="col">Year</th>
+              <th scope="col">Start Time</th>
+              <th scope="col">End Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td>{{ yearid }}</td>
+            <td>{{ starttime }}</td>
+            <td>{{ endtime }}</td>
+          </tbody>
+        </table>
+        -->
+        <div class="row">
+          <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width:140px;">Dataset</span>
+                    </div>
+                    <input class="form-control" type="text" name="dataset" id="dataset" value="{{ datasetid }}">
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width:140px;">Chain</span>
+                    </div>
+                    <input class="form-control" type="text" name="chain" id="chain" value="{{ chainid }}">
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width:140px;">Year</span>
+                    </div>
+                    <input class="form-control" type="text" name="year" id="year" value="{{ yearid }}">
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width:140px;">Parameter</span>
+                    </div>
+                    <!--<input class="form-control" type="text" name="para" id="para">-->
+                    <select class="form-control" id="para" name="para">
+                            <option selected> {{ para }} </option>
+                            {% for key,value in dict.items %}
+                            <option>{{ key }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width:140px;">Start Time</span>
+                    </div>
+                    <input class="form-control" type="text" name="time1" id="starttime" placeholder="Click any row from Table">
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width:140px;">End Time</span>
+                    </div>
+                    <input class="form-control" type="text" name="time2" id="endtime" placeholder="Click any row from Table">
+                </div>
+                <h4></h4>
+                <button type="submit" class="btn btn-primary" name="graph" value="{{ datasetid }}">Graph</button>
+            </div>
+          </div>
+          </div>
+          <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width:190px;">Observation Start Time</span>
+                    </div>
+                    <input class="form-control" type="text" name="obsttime" id="obsttime" value={{ starttime }}>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width:190px;">Observation End Time</span>
+                    </div>
+                    <input class="form-control" type="text" name="obentime" id="obentime" value={{ endtime }}>
+                </div>
+                <h4><label for="comment">Description</label></h4>
+                <textarea class="form-control" rows="2" id="comment"></textarea>
+                <h4></h4>
+                <button type="submit" class="btn btn-primary" name="update" value="{{ datasetid }}">Update</button>
+            </div>
+          </div>
+          </div>
+        </div>
+    </form>
+    <h4></h4>
+    <div class="card">
+        <h5 class="card-header">Details:</h5>
+        <div class="card-body">
+          <!--
+          <table class="table table-hover table-bordered" id="imptable">
+            <thead>
+              <tr>
+                <th scope="col">Create Time 1</th>
+                <th scope="col">Create Time 2</th>
+                <th scope="col">Parameter</th>
+                <th scope="col">Description</th>
+                <th scope="col">Graph</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for key,value in result.items %}
+              <tr>
+                  <td id="time1">{{ value.1|date:"Y-m-d" }}</td>
+                  <td id="time2">{{ value.2|date:"Y-m-d" }}</td>
+                  <td>{{ value.3 }}</td>
+                  <td>{{ value.4 }}</td>
+                  <td><button type="submit" class="btn btn-primary" name="graph" value="{{ datasetid }}">Graph</button>
+                  </td>
+                  <td><a href="/nightly/plot/graph">Graph</a> </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table> -->
+          <div class="table-responsive">
+              <h4></h4>
+              <table class="table table-hover table-bordered" id="imptable">
+                <thead>
+                  <tr>
+                    <th scope="col">DatasetID</th>
+                    <th scope="col">Date 1</th>
+                    <th scope="col">Date 2</th>
+                    {% for key,value in dict.items %}
+                      <th scope="col">{{ key }} ( {{ value }}% )</th>
+                    {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                {% for key,value in dictresult.items %}
+                  <tr>
+                      <!--<td>{{ value.1 }}</td>
+                      <td>{{ value.2|date:"Y-m-d" }}</td>
+                      <td>{{ value.3|date:"Y-m-d" }}</td>-->
+                      <!--{% for num in value %}-->
+                        <!--<td >{{ num }}</td>-->
+                      <!--{% endfor %}-->
+                      {% for key2,value2 in value.items %}
+                           {% if value2 < dict|get_item:key2  %}
+                              <td >{{ value2 }}</td>
+                           {% else %}
+                              {% if key2 in except_list %}
+                                 <td >{{ value2 }}</td>
+                              {% else %}
+                                 <td style="color:Red;">{{ value2 }}</td>
+                              {% endif %}
+                           {% endif %}
+                      {% endfor %}
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+
+<script>
+
+document.getElementById('para').value = "{{ para }}"
+
+var table = document.getElementById('imptable'),rIndex;
+for (var i = 0; i < table.rows.length; i++)
+{
+    table.rows[i].onclick = function()
+    {
+        rIndex = this.rowIndex;
+        document.getElementById('starttime').value = this.cells[1].innerHTML;
+        document.getElementById('endtime').value = this.cells[2].innerHTML;
+    }
+}
+
+
+</script>
+
+{% endblock script %}

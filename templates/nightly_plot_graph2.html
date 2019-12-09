@@ -1,0 +1,150 @@
+{% extends "nightly.html" %}
+{% load staticfiles %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <!--<a class="nav-link" href="/nightly">Nightly Tests</a>-->
+  <!--<a class="nav-link" href="/nightly/add">Add New Test</a>-->
+  <a class="nav-link" href="/nightly/precision">Precision</a>
+  <a class="nav-link" href="/nightly/premodify">Precision Modification</a>
+  <a class="nav-link" href="/nightly/status">Week Status</a>
+  <a class="nav-link active" href="/nightly/plot">Dataset Change Identification</a>
+  <a class="nav-link" href="/nightly/compare">Dataset Compare</a>
+  <a class="nav-link" href="/nightly/library">Dataset w.r.t. Library</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+<div class="card">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" style="width:180px;">Dataset</span>
+    </div>
+    <input type="text" name="dataset" id="dataset" class="form-control">
+  </div>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" style="width:180px;">Parameter</span>
+    </div>
+    <input type="text" name="para" id="para" class="form-control">
+  </div>
+  <div class="card-body">
+    <div style="overflow-x:auto;">
+      <canvas id="myChart" width="1000" height="600" ></canvas>
+    </div>
+  </div>
+</div>
+<!--
+<div class="card">
+  <h5 class="card-header">Description</h5>
+  <div class="card-body">
+      {{ why|safe }}
+  </div>
+</div>
+
+-->
+
+{% endblock content %}
+
+{% block script %}
+<!--
+<script>
+
+$( document ).ready(function() {
+    var data = {
+        labels: {{ labels|safe }},
+        datasets: [
+            {
+                label: "give it label",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(54, 162, 235, 1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: {{ datas }},
+                borderWidth: 1
+            }
+        ]
+    };
+    var options = {
+        scales: {
+            responsive: false,
+            scaleFontColor: "rgba(54, 162, 235, 1)",
+            yAxes: [{
+                gridLines: {
+                    color: "rgba(54, 162, 235, 1)",
+                    lineWidth: 1,
+                    fontColor: "rgba(54, 162, 235, 1)",
+                },
+                ticks: {
+                    min: {{ ymin }},
+                    max: {{ ymax }},
+                }
+            }],
+            xAxes: [{
+                gridLines: {
+                    color: "rgba(54, 162, 235, 1)",
+                    lineWidth: 1,
+                    fontColor: "rgba(54, 162, 235, 1)",
+                }
+            }]
+        }
+    };
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myLineChart = new Chart(ctx).Line(data, options);
+    document.getElementById("dataset").value = "{{ datasetid1 }}"
+    document.getElementById("para").value = "{{ paraid1 }}"
+});
+</script>
+-->
+<script>
+$( document ).ready(function() {
+
+var ctx = document.getElementById("myChart").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+            label: '{{ paraid1 }}',
+            data: {{ datas }},
+            lineTension: 0,
+            fillColor: "rgba(54, 162, 235, 0.2)",
+            strokeColor: "rgba(54, 162, 235, 1)",
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.2)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            responsive: true,
+            yAxes: [{
+                ticks: {
+                      fontColor: 'black',
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                      fontColor: 'black',
+                }
+            }]
+        }
+    }
+});
+document.getElementById("dataset").value = "{{ datasetid1 }}"
+document.getElementById("para").value = "{{ paraid1 }}"
+
+});
+</script>
+
+{% endblock script %}

@@ -1,0 +1,163 @@
+{% extends "production.html" %}
+{% load staticfiles %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <a class="nav-link" href="/production">Current Production</a>
+  <a class="nav-link active" href="/production/picoprogress">PicoDst Conversion</a>
+  <a class="nav-link" href="/production/disks">Disk status</a>
+  <a class="nav-link" href="/production/chains">Chain Details</a>
+  <a class="nav-link" href="/production/prediction">Production Prediction</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Enter the Time
+    </div>
+    <div class="card-body">
+        <form method="post">{% csrf_token %}
+          <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Year</span>
+            </div>
+            <select class="form-control mdb-autocomplete" id="year" name="year">
+                <option selected> Choose the Table</option>
+              {% for table in tablelist %}
+                  <option>{{ table }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          </div>
+
+          <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Start time</span>
+            </div>
+            <input type="date" id="starttime" name="starttime">
+          </div>
+          </div>
+
+          <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">End time</span>
+            </div>
+            <input type="date" id= "endtime" name="endtime">
+          </div>
+          </div>
+          <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Graph
+    </div>
+    <div class="card-body">
+        <div style="overflow-x:auto;">
+            <canvas id="myChart" width="1000" height="600" ></canvas>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+
+<script>
+$( document ).ready(function() {
+
+var ctx = document.getElementById("myChart").getContext("2d");
+var datasetValue = [];
+var count = {{ length }};
+var dataset = {{ datasetlist|safe }};
+var colorlist = [];
+for (var j=0; j<count; j++)
+{
+    <!--var color =  getRandomColor()-->
+    colorlist[j] = getRandomColor();
+}
+<!--console.log(dataset)-->
+var data1 = {{ dataformat }};
+<!--console.log({{ dataformat }})-->
+for (var j=0; j<count; j++) {
+        datasetValue[j] = {
+            <!--label: '{{ datasetlist|safe }}',-->
+            <!--data: {{ dataformat }},-->
+            label:dataset[j],
+            data:data1[j],
+            lineTension: 0,
+            backgroundColor: colorlist[j],
+            stack: 'Stack 0'
+            <!--backgroundColor: poolColors('rgba(54, 162, 235, 0.2)'),-->
+            <!--borderColor: poolColors('rgba(54, 162, 235, 1)'),-->
+            <!--borderWidth: 1-->
+        }
+}
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: datasetValue
+        <!--datasets: [{-->
+            <!--label: '{{ datasetlist|safe }}',-->
+            <!--data: {{ dataformat }},-->
+            <!--lineTension: 0,-->
+            <!--backgroundColor: poolColors('rgba(54, 162, 235, 0.2)'),-->
+            <!--borderColor: poolColors('rgba(54, 162, 235, 1)'),-->
+            <!--borderWidth: 1-->
+        <!--}]-->
+    },
+    options: {
+        scales: {
+            responsive: true,
+            yAxes: [{
+                ticks: {
+                      fontColor: 'black',
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                      fontColor: 'black',
+                }
+            }]
+        }
+    }
+});
+document.getElementById("dataset").value = "{{ datasetid1 }}"
+document.getElementById("para").value = "{{ paraid1 }}"
+
+});
+
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+function poolColors(color) {
+    var a = {{ length }};
+    var pool = [];
+    for(i = 0; i < a; i++) {
+        pool.push(color);
+        <!--pool.push(getRandomColor())-->
+    }
+    return pool;
+}
+</script>
+
+{% endblock script %}

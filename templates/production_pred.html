@@ -1,0 +1,204 @@
+{% extends "production.html" %}
+{% load staticfiles %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <a class="nav-link" href="/production">Current Production</a>
+  <a class="nav-link" href="/production/picoprogress">PicoDst Conversion</a>
+  <a class="nav-link" href="/production/disks">Disk status</a>
+  <a class="nav-link" href="/production/chains">Chain Details</a>
+  <a class="nav-link active" href="/production/prediction">Production Prediction</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Production Prediction
+    </div>
+    <!--<div class="card-body">-->
+        <!--<form method="post">{% csrf_token %}-->
+          <!--<div class="form-group">-->
+          <!--<div class="input-group">-->
+            <!--<div class="input-group-prepend">-->
+              <!--<span class="input-group-text" style="width:180px;">Year</span>-->
+            <!--</div>-->
+            <!--<select class="form-control mdb-autocomplete" id="year" name="year">-->
+                <!--<option selected> Choose the Table</option>-->
+              <!--{% for table in tablelist %}-->
+                  <!--<option>{{ table }}</option>-->
+              <!--{% endfor %}-->
+            <!--</select>-->
+          <!--</div>-->
+          <!--</div>-->
+
+          <!--<div class="form-group">-->
+          <!--<div class="input-group">-->
+            <!--<div class="input-group-prepend">-->
+              <!--<span class="input-group-text" style="width:180px;">Start time</span>-->
+            <!--</div>-->
+            <!--<input type="date" id="starttime" name="starttime">-->
+          <!--</div>-->
+          <!--</div>-->
+
+          <!--<div class="form-group">-->
+          <!--<div class="input-group">-->
+            <!--<div class="input-group-prepend">-->
+              <!--<span class="input-group-text" style="width:180px;">End time</span>-->
+            <!--</div>-->
+            <!--<input type="date" id= "endtime" name="endtime">-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--<button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>-->
+        <!--</form>-->
+    <!--</div>-->
+</div>
+
+<div class="card">
+    <div class="card-header">
+        PicoDst Prediction
+    </div>
+    <form method="post" >{% csrf_token %}
+    <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" style="width:180px;">Dataset</span>
+    </div>
+    <input type="text" name="dataset" id="dataset" class="form-control">
+    </div>
+    <!--<div class="input-group">-->
+    <!--<div class="input-group-prepend">-->
+      <!--<span class="input-group-text" style="width:180px;">Chain</span>-->
+    <!--</div>-->
+    <!--<input type="text" name="chain" id="chain" class="form-control">-->
+    <!--</div>-->
+    <!--<div class="input-group">-->
+    <!--<div class="input-group-prepend">-->
+      <!--<span class="input-group-text" style="width:180px;">Year</span>-->
+    <!--</div>-->
+    <!--<input type="text" name="year" id="year" class="form-control">-->
+    <!--</div>-->
+    <!--<div class="input-group">-->
+    <!--<div class="input-group-prepend">-->
+      <!--<span class="input-group-text" style="width:180px;">Nunmber of files</span>-->
+    <!--</div>-->
+    <!--<input type="text" name="year" id="files" class="form-control">-->
+    <!--</div>-->
+    <div class="input-group">
+    <!--<div class="form-group">-->
+    <div class="input-group-prepend">
+      <span class="input-group-text" style="width:180px;">Submit</span>
+    </div>
+    <!--<input type="text" name="dataset" id="graph" class="form-control">-->
+    <button type="submit" class="btn btn-primary" name="sub1" value="sub1">Submit</button>
+    <!--</div>-->
+    </div>
+    </form>
+    <div class="card-body">
+        <div style="overflow-x:auto;">
+            <canvas id="myChart" width="1000" height="600" ></canvas>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+
+<script>
+
+$( document ).ready(function() {
+
+var ctx = document.getElementById("myChart").getContext("2d");
+<!--var count = {{ length }};-->
+<!--var color1 =  getRandomColor();-->
+<!--var color2 =  getRandomColor();-->
+<!--var colorlist1 = [];-->
+<!--var colorlist2 = [];-->
+<!--for (var j=0; j<count; j++)-->
+<!--{-->
+    <!--colorlist1[j] = color1;-->
+    <!--colorlist2[j] = color2;-->
+<!--}-->
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+            label: '{{ datasetid1 }}',
+            data: {{ datas1 }},
+            lineTension: 0,
+            <!--backgroundColor: colorlist1,-->
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: '{{ datasetid2 }}',
+            data: {{ datas2 }},
+            lineTension: 0,
+            <!--backgroundColor: colorlist2,-->
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 0.2)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: '{{ datasetid3 }}',
+            data: {{ datas3 }},
+            lineTension: 0,
+            <!--backgroundColor: colorlist2,-->
+            backgroundColor: [
+                'rgba(153, 102, 255, 0.2)',
+            ],
+            borderColor: [
+                'rgba(153, 102, 255, 0.2)',
+            ],
+            borderWidth: 1
+        }
+        ]
+    },
+    options: {
+        scales: {
+            responsive: true,
+            yAxes: [{
+                ticks: {
+                      fontColor: 'black',
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                      fontColor: 'black',
+                }
+            }]
+        }
+    }
+});
+
+<!--function getRandomColor() {-->
+    <!--var letters = '0123456789ABCDEF'.split('');-->
+    <!--var color = '#';-->
+    <!--for (var i = 0; i < 6; i++) {-->
+        <!--color += letters[Math.floor(Math.random() * 16)];-->
+    <!--}-->
+    <!--return color;-->
+<!--}-->
+
+document.getElementById("dataset").value = "{{ datasetid1 }}"
+<!--document.getElementById("files").value = "{{ files }}"-->
+
+});
+</script>
+
+{% endblock script %}
