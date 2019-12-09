@@ -8,4 +8,8 @@ $ source bin/activate
 $ mkdir BirdView  
 $ cd BirdView  
 $ git clone https://github.com/amolhj/BirdView.git  
-$ pip install requirement.txt   
+$ pip install requirement.txt
+
+
+# Running the framework  
+$ python manage.py runserver   
