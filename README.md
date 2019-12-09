@@ -12,4 +12,5 @@ $ pip install requirement.txt
 
 
 # Running the framework  
-$ python manage.py runserver   
+$ python manage.py migrate  
+$ python manage.py runserver    
