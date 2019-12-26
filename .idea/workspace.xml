@@ -2,31 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="30bded67-cbe1-4368-a706-242e35ff8dad" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BirdView/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BirdView/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/home/dbaccess.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/dbaccess.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/nightly_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/nightly_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/production_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/production_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_add.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_add.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_compare.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_compare.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_library.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_library.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_library_graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_library_graph.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_plot.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_plot.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_plot_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_plot_details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_plot_graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_plot_graph.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_plot_graph2.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_plot_graph2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_precision.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_precision.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_premod.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_premod.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nightly_status.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nightly_status.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/production.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/production.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/production_chains.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/production_chains.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/production_disk.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/production_disk.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/production_pico.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/production_pico.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../bin/django-admin" beforeDir="false" afterPath="$PROJECT_DIR$/../bin/django-admin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../bin/pip" beforeDir="false" afterPath="$PROJECT_DIR$/../bin/pip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../bin/pip3" beforeDir="false" afterPath="$PROJECT_DIR$/../bin/pip3" afterDir="false" />
@@ -1213,13 +1189,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/home/dbaccess.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1137">
-              <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+            <state>
+              <caret column="1" selection-start-column="1" selection-end-column="1" />
               <folding>
-                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#40#62#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1246,10 +1222,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/home/production_process.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="571">
+            <state relative-caret-position="615">
               <caret line="41" column="47" lean-forward="true" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
@@ -1329,8 +1305,8 @@
         <option value="$PROJECT_DIR$/BirdView/settings.py" />
         <option value="$PROJECT_DIR$/templates/production.html" />
         <option value="$PROJECT_DIR$/home/views.py" />
-        <option value="$PROJECT_DIR$/home/dbaccess.py" />
         <option value="$PROJECT_DIR$/home/production_process.py" />
+        <option value="$PROJECT_DIR$/home/dbaccess.py" />
       </list>
     </option>
   </component>
@@ -1814,22 +1790,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/home/dbaccess.py">
+    <entry file="file://$PROJECT_DIR$/home/production_process.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1137">
-          <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+        <state relative-caret-position="615">
+          <caret line="41" column="47" lean-forward="true" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/home/production_process.py">
+    <entry file="file://$PROJECT_DIR$/home/dbaccess.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="41" column="47" lean-forward="true" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
           <folding>
-            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#40#62#0" expanded="true" />
           </folding>
         </state>
       </provider>

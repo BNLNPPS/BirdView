@@ -1,4 +1,4 @@
-import MySQLdb
+#import MySQLdb
 #import mysql.connector
 import pymysql.cursors
 import sys
