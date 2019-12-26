@@ -108,10 +108,12 @@ def production(request):
         prodlist = details.get("prod")
         statlist = details.get("stat")
         numblist = details.get("numb")
+        datelist = details.get("date")
         length = details.get("leng")
         dict = {}
         for count in range(length):
             value = []
+            value.append(datelist[count])
             value.append(triglist[count])
             value.append(prodlist[count])
             value.append(statlist[count])
@@ -186,6 +188,7 @@ def production_pico(request):
             # #print(dataformat)
             # return render(request, "production_pico.html", locals())
         dict_output = production_process.GetPicoStatus(year, starttime, endtime)
+        #print(dict_output)
         labels = dict_output.get("datelist")
         datasetlist = dict_output.get("datasetlist")
         datas = dict_output.get("jobcountmatrix")
@@ -198,6 +201,7 @@ def production_pico(request):
                 data.append(datas[x][z])
 
              dataformat.append(data)
+        #print(dataformat)
         return render(request, "production_pico.html", locals())
 
 def production_chains(request):

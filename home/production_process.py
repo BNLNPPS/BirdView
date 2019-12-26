@@ -11,33 +11,44 @@ def GetPicoStatus(year, starttime, endtime):
             "group by prodTag, datasetName, submissionTime" \
             " order by submissionTime"
     result = dbaccess.db_execute("Embedding_job_stats",query)
-    # print("Yor are retruned from db")
+    #print(query)
     output = result.get("output")
     datelist = []
     datasetlist = []
+    ddlist = []
+    jobcount = []
     dict = {}
     for row in output:
+        #print(row)
         if str(row[2]) not in datelist:
            datelist.append(str(row[2]))
         if row[1] not in datasetlist:
            datasetlist.append(row[1])
+        dd = row[1]+"#"+str(row[2])
+        if dd not in ddlist:
+           ddlist.append(dd)
+           jobcount.append(int(row[0]))
+        else:
+           index = ddlist.index(dd)
+           jobcount[index] = jobcount[index]+int(row[0])
 
-    # jobcountlist = [0] * len(datasetlist)
-    # matrix = [jobcountlist] * len(datelist)
     matrix = numpy.zeros((len(datelist), len(datasetlist)))
-    # print(matrix)
-    for date in output:
-        x = datelist.index(str(date[2]))
-        y = datasetlist.index(str(date[1]))
-        # print(str(x)+"---"+str(y)+"---"+str(matrix[x][y]))
-        matrix[x][y] = matrix[x][y] + int(date[0])
-        # print(str(date[0])+"-->"+str(matrix[x]))
+
+    for dt in datelist:
+        for dd in ddlist:
+            if dd.find(dt)>=0:
+                parts = dd.split("#")
+                x = datelist.index(parts[1])
+                y = datasetlist.index(parts[0])
+                index = ddlist.index(dd)
+                matrix[x][y] = jobcount[index]
+
 
     dict["datelist"] = datelist
     dict["datasetlist"] = datasetlist
     dict["jobcountmatrix"] = matrix
 
-    # print(matrix)
+    #print(matrix)
     return dict
 
 def GetPicoPred(year, yesterday, files):
@@ -121,13 +132,14 @@ def GetTables():
 
 def GetCRSdetails():
     # --Get the table list--
-    query = "SELECT count(*), status, trigset, prodtag FROM CRSJobsInfo group by status, trigset, prodtag"
+    query = "SELECT count(*), status, trigset, prodtag, runDate FROM CRSJobsInfo group by status, trigset, prodtag, runDate order by runDate"
     result = dbaccess.db_execute("operation", query)
     output = result.get("output")
     triglist = []
     prodlist = []
     statlist = []
     numblist = []
+    datelist = []
     length = 0
     for row in output:
         if len(row[1])>0:
@@ -136,12 +148,14 @@ def GetCRSdetails():
             prodlist.append(row[3])
             statlist.append(row[1])
             numblist.append(row[0])
+            datelist.append(row[4])
 
     dict = {}
     dict["trig"] = triglist
     dict["prod"] = prodlist
     dict["stat"] = statlist
     dict["numb"] = numblist
+    dict["date"] = datelist
     dict["leng"] = length
     return dict
 
