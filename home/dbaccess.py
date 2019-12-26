@@ -1,11 +1,12 @@
 import MySQLdb
 #import mysql.connector
+import pymysql.cursors
 import sys
 
 def db_connect(dbname):
     try:
-        db = MySQLdb.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db=dbname)
-        # db = mysql.connector.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db="LibraryJobs")
+        #db = MySQLdb.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db=dbname)
+        db = pymysql.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db=dbname)
     except:
         print("Can't connect to database!!!")
         return 0
@@ -42,8 +43,8 @@ def db_execute(dbname,query):
 
 def dbexecute(query, dbstr="LibraryJobs"):
         try:
-            db = MySQLdb.connect(host="127.0.0.1",port=1234,user="starreco",passwd="",db=dbstr)
-            #db = mysql.connector.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db="LibraryJobs")
+            #db = MySQLdb.connect(host="127.0.0.1",port=1234,user="starreco",passwd="",db=dbstr)
+            db = pymysql.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db=dbstr)
         except:
             print("Can't connect to database!!!")
             return 0
@@ -65,8 +66,9 @@ def dbexecute(query, dbstr="LibraryJobs"):
 
 def ExecuteQuery(query):
         try:
-            db = MySQLdb.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db="LibraryJobs")
-            #db = MySQLdb.connect(host="duvall.star.bnl.gov",port=3306,user="starreco",passwd="",db="LibraryJobs")
+            #db = MySQLdb.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db="LibraryJobs")
+            db = pymysql.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db="LibraryJobs")
+            #db = mysql.connector.connect(host="duvall.star.bnl.gov",port=3306,user="starreco",passwd="",db="LibraryJobs")
         except:
             print("Can't connect to database!!!")
             return 0
@@ -92,7 +94,8 @@ def ExecuteQuery(query):
 
 def TableDescribe(table):
         try:
-            db = MySQLdb.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db="LibraryJobs")
+            #db = MySQLdb.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db="LibraryJobs")
+            db = pymysql.connect(host="127.0.0.1", port=1234, user="starreco", passwd="", db="LibraryJobs")
             #db = MySQLdb.connect(host="duvall.star.bnl.gov", port=3306, user="starreco", passwd="", db="LibraryJobs")
         except:
             print("Can't connect to database!!!")
