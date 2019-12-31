@@ -20,18 +20,47 @@
 
 {% block content %}
 <div class="card">
+  <form method="post" >{% csrf_token %}
   <div class="input-group">
     <div class="input-group-prepend">
       <span class="input-group-text" style="width:180px;">Dataset</span>
     </div>
-    <input type="text" name="dataset" id="dataset" class="form-control">
+    <input type="text" name="datasetid" id="datasetid" class="form-control">
+  </div>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" style="width:180px;">Chain</span>
+    </div>
+    <input type="text" name="chainid" id="chainid" class="form-control">
+  </div>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" style="width:180px;">Year</span>
+    </div>
+    <input type="text" name="yearid" id="yearid" class="form-control">
   </div>
   <div class="input-group">
     <div class="input-group-prepend">
       <span class="input-group-text" style="width:180px;">Parameter</span>
     </div>
-    <input type="text" name="para" id="para" class="form-control">
+    <!--<input type="text" name="para" id="para" class="form-control">-->
+    <select class="form-control" id="paraid" name="paraid">
+              <!--<option selected> Choose the Parameter</option>-->
+              {% for key,value in parameters.items %}
+                <option>{{ key }}</option>
+              {% endfor %}
+    </select>
   </div>
+  <div class="input-group">
+    <!--<div class="form-group">-->
+    <div class="input-group-prepend">
+      <span class="input-group-text" style="width:180px;">Graph</span>
+    </div>
+    <!--<input type="text" name="dataset" id="graph" class="form-control">-->
+    <button type="submit" class="btn btn-primary" name="graph1" value="graph1">Graph</button>
+    <!--</div>-->
+  </div>
+  </form>
   <div class="card-body">
     <div style="overflow-x:auto;">
       <canvas id="myChart" width="1000" height="600" ></canvas>
@@ -143,8 +172,10 @@ var myChart = new Chart(ctx, {
         }
     }
 });
-document.getElementById("dataset").value = "{{ datasetid }}"
-document.getElementById("para").value = "{{ paraid }}"
+document.getElementById("datasetid").value = "{{ datasetid }}"
+document.getElementById("chainid").value = "{{ chainid }}"
+document.getElementById("yearid").value = "{{ yearid }}"
+document.getElementById("paraid").value = "{{ paraid }}"
 
 });
 </script>

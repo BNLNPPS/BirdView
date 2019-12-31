@@ -6,10 +6,10 @@ import numpy
 def GetPicoStatus(year, starttime, endtime):
     # print("Yor are in the function")
     tablename = "jobs_prod_"+year
-    query = "SELECT count(*),concat(datasetName,'(' ,prodTag,')'),cast(submissionTime as date) FROM "+tablename+ \
-            " where submissionTime>='"+starttime+"' and submissionTime<='"+endtime+"' " \
-            "group by prodTag, datasetName, submissionTime" \
-            " order by submissionTime"
+    query = "SELECT count(*),concat(datasetName,'(' ,prodTag,')'),cast(outputCreateTime as date) FROM "+tablename+ \
+            " where outputCreateTime>='"+starttime+"' and outputCreateTime<='"+endtime+"' " \
+            "group by prodTag, datasetName, outputCreateTime" \
+            " order by outputCreateTime"
     result = dbaccess.db_execute("Embedding_job_stats",query)
     #print(query)
     output = result.get("output")

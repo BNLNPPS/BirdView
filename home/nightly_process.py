@@ -13,19 +13,41 @@ def DescribeTable(table):
         column_name.append(line[0])
     return column_name
 
-def fetch_Library_data(datasetid, para, chainid):
-    query = "select path,LibTag,"+para+" from siteJobStatus where LibLevel='new' and chainOpt='"+chainid+"' and path like '%"+datasetid+"' order by createTime ASC"
-    print(query)
+def fetch_Library_dataset():
+    query = "select distinct path,chainOpt,prodyear from LibraryJobs.siteJobStatus where site='rcf' order by prodyear ASC"
+    #print(query)
     result = dbaccess.dbexecute(query)
     resultdict = {}
+    yearlist = []
+    total = 0
+    dict = {}
     for row in result:
-        if datasetid.find("opt")>=0:
-           if row[0].find("opt")>=0:
-              resultdict[str(row)] = row
-        else:
-           if row[0].find("opt")<0:
-              resultdict[str(row)] = row
-    print(resultdict)
+        resultdict[total]=row
+        if row[2] not in yearlist:
+            yearlist.append(row[2])
+        total = total + 1
+    dict["rows"]=resultdict
+    dict["years"]=yearlist
+    return dict
+
+
+def fetch_Library_data(datasetid, para, chainid):
+    query = "select LibTag,"+para+" from siteJobStatus where chainOpt='"+chainid+"' and path='"+datasetid+"' order by LibTag ASC"
+    #query = "select path,LibTag,"+para+" from siteJobStatus where LibLevel='new' and chainOpt='"+chainid+"' and path='%"+datasetid+"' order by LibTag ASC"
+    #print(query)
+    result = dbaccess.dbexecute(query)
+    resultdict = {}
+    count = 0
+    for row in result:
+        #print(row)
+        #if datasetid.find("opt")>=0:
+        #   if row[0].find("opt")>=0:
+        #      resultdict[str(row)] = row
+        #else:
+        #   if row[0].find("opt")<0:
+              resultdict[count] = row
+              count = count + 1
+    #print(resultdict)
     return resultdict
 
 def fetchPrecisionTable():
@@ -144,18 +166,11 @@ def gatherData(comboid,starttime,endtime,parameter):
     resultdict.clear()
     for row in result:
         resultdict[row[0]]=row
+        # print(row)
 
     return resultdict
 
 def fetchgraphdata(datasetid, parameter, starttime, endtime):
-    # if starttime < endtime:
-    #     time1 = starttime
-    #     starttime = endtime
-    #     endtime = time1
-    #newstarttime = str(datetime.strptime(starttime,"%Y-%m-%d")-timedelta(7))
-    #newendtime = str(datetime.strptime(endtime,"%Y-%m-%d")+timedelta(7))
-    #print(starttime+"--"+newstarttime)
-    #print(endtime+"--"+newendtime)
     query = "select createTime,"+parameter+" from JobStatus where DatasetChainID="+str(datasetid)+" and createTime>='"+starttime+"' and createTime<='"+endtime+"' and jobStatus='Done'"
     print(query)
     result = dbaccess.dbexecute(query)
