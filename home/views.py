@@ -382,10 +382,10 @@ def nightly_status(request):
               labels = []
               datas = []
               for value in result:
-                  labels.append(value)
+                  labels.append(value.split(" ")[0])
                   datas.append(result[value])
-              #print(datas)
-              #print(labels)
+              # print(datas)
+              # print(labels)
               return render(request, "nightly_plot_graph2.html", locals())
 
       ############ to show the details of ID on status page ################
@@ -534,8 +534,7 @@ def nightly_plot(request):
 def nightly_compare(request):
         datasets = nightly_process.fetchDatasetlist()
         # print(datasets.values())
-        # chains = nightly_process.fetchChainlist()
-        # years = nightly_process.fetchYearlist()
+
         resultdict = nightly_process.fetchPrecisionTable()
         combodict = nightly_process.fetchDatasetChainCombo()
         parameters = resultdict.get("dictionary")
@@ -557,20 +556,8 @@ def nightly_compare(request):
                 comboid2 = nightly_process.getComboID(datalist[1], chainid, year)
 
                 result1 = nightly_process.fetchgraphdata(comboid1, para, timelist[0], timelist[1])
-                # print(result)
-                # labels1 = []
-                # datas1 = []
-                # for value in result1:
-                #     labels1.append(value)
-                #     datas1.append(result1[value])
 
                 result2 = nightly_process.fetchgraphdata(comboid2, para, timelist[0], timelist[1])
-                # print(result)
-                # labels2 = []
-                # datas2 = []
-                # for value in result2:
-                #     labels2.append(value)
-                #     datas2.append(result2[value])
 
                 dict = getGraphData(result1, result2)
                 # print(dict)
@@ -600,51 +587,9 @@ def nightly_compare(request):
                 paraid1 = request.POST['paraid']
 
                 result1 = nightly_process.fetchgraphdata(comboid1, paraid1, time1, time2)
-                # print(result)
-                # labels1 = []
-                # datas1 = []
-                # for value in result1:
-                #     labels1.append(value)
-                #     datas1.append(result1[value])
 
                 result2 = nightly_process.fetchgraphdata(comboid2, paraid1, time1, time2)
-                # print(result)
-                # labels2 = []
-                # datas2 = []
-                # for value in result2:
-                #     labels2.append(value)
-                #     datas2.append(result2[value])
 
-                # labels1 = list(result1.keys())
-                # result11 = {}
-                # print(len(labels1))
-                # for label in labels1:
-                #     day = label.split(" ")[0]
-                #     result11[day] = result1[label]
-                #     labels1[labels1.index(label)] = day
-                #
-                # labels2 = list(result2.keys())
-                # result22 = {}
-                # print(len(labels2))
-                # for label in labels2:
-                #     day = label.split(" ")[0]
-                #     result22[day] = result2[label]
-                #     labels2[labels2.index(label)] = label.split(" ")[0]
-                # datas1 = []
-                # datas2 = []
-                # labels = list(dict.fromkeys(labels1+labels2))
-                # labels.sort()
-                # print(len(labels))
-                # for label in labels:
-                #     if label in labels1:
-                #         datas1.append(result11[label])
-                #     else:
-                #         datas1.append(0)
-                #     if label in labels2:
-                #         datas2.append(result22[label])
-                #     else:
-                #         datas2.append(0)
-                #dict = {}
                 dict = getGraphData(result1,result2)
                 # print(dict)
                 labels1 = dict.get("labels")
@@ -656,15 +601,6 @@ def nightly_compare(request):
                 return render(request, "nightly_plot_graph.html", locals())
 
 
-
-        # datasets = nightly_process.fetchDatasetlist()
-        # # print(datasets.values())
-        # # chains = nightly_process.fetchChainlist()
-        # # years = nightly_process.fetchYearlist()
-        # resultdict = nightly_process.fetchPrecisionTable()
-        # combodict = nightly_process.fetchDatasetChainCombo()
-        # parameters = resultdict.get("dictionary")
-        # datasetid = resultdict.get("dataset")
         return render(request, "nightly_compare.html", locals())
 
 def getGraphData(result1, result2):
@@ -710,6 +646,9 @@ def getWeekbackDate():
         return weekback
 
 def nightly_library(request):
+    resultdict = nightly_process.fetchPrecisionTable()
+    parameters = resultdict.get("dictionary")
+
     if request.method == "POST" and 'graph' in request.POST:
         datasetid = request.POST['datasetid']
         chainid = request.POST['chainid']
@@ -721,24 +660,47 @@ def nightly_library(request):
             labels = []
             datas = []
             for value in result:
-                labels.append(result[value][1])
-                datas.append(result[value][2])
+                labels.append(result[value][0])
+                datas.append(result[value][1])
 
-            # ymin = min(datas)
-            # ymax = max(datas)
-            # ymin = ymin - (ymin * 0.1)
-            # ymax = ymax + (ymax * 0.1)
+            #print(labels)
+            #print(datas)
             return render(request, "nightly_library_graph.html", locals())
         else:
             messages.error(request, 'Choosen dataset does not have result!!!', extra_tags='danger')
             #return render(request, "nightly_library.html", locals())
 
-    datasets = nightly_process.fetchDatasetlist()
-    resultdict = nightly_process.fetchPrecisionTable()
-    parameters = resultdict.get("dictionary")
-    datasetid = resultdict.get("dataset")
-    combodict = nightly_process.fetchDatasetChainCombo()
-    return render(request, "nightly_library.html", locals())
+    if request.method == "POST" and 'graph1' in request.POST:
+        # print(request.POST)
+        datasetid = request.POST['datasetid']
+        chainid = request.POST['chainid']
+        yearid = request.POST['yearid']
+        paraid = request.POST['paraid']
+
+        result = nightly_process.fetch_Library_data(datasetid, paraid, chainid)
+        if bool(result):
+            labels = []
+            datas = []
+            for value in result:
+                labels.append(result[value][0])
+                datas.append(result[value][1])
+
+            # print(labels)
+            # print(datas)
+            return render(request, "nightly_library_graph.html", locals())
+        else:
+            messages.error(request, 'Choosen dataset does not have result!!!', extra_tags='danger')
+
+    #datasets = nightly_process.fetchDatasetlist()
+    #datasetid = resultdict.get("dataset")
+    #combodict = nightly_process.fetchDatasetChainCombo()
+    selectionlist = nightly_process.fetch_Library_dataset()
+    yearlist = selectionlist.get("years")
+    datasetlist = selectionlist.get("rows")
+    #print(combodict)
+    return render(request, "nightly_library-2.html", locals())
+
+
 # def getYesterdayDate():
 #       yesterday = str(date.today()-timedelta(1))
 #       return yesterday
@@ -757,32 +719,3 @@ def nightly_library(request):
 #     #return JsonResponse(data)
 #     return render(request, "nightly_plot_graph.html", locals())
 
-
-# class ChartData(APIView):
-#
-#     authentication_classes = []
-#     permission_classes = []
-#     renderer_classes = [TemplateHTMLRenderer]
-#     template_name = 'nightly_plot_graph.html'
-#
-#     def get(self, request, format=None):
-#       labels_list = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
-#       data_list = [12, 19, 3, 5, 2, 3]
-#       data = {
-#           "labels":labels_list,
-#           "datas":data_list,
-#       }
-#
-#       #return JsonResponse(data)
-#       return Response(data)
-
-
-# class ChartView(TemplateView):
-#     template_name = 'nightly_plot_graph2.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(ChartView, self).get_context_data(**kwargs)
-#         context['labels'] = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"]
-#         context['datas'] = [12, 19, 3, 5, 2, 3]
-#         return context
-#
