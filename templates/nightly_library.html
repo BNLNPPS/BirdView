@@ -28,12 +28,12 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text" style="width:180px;">Select Dataset</span>
+              <span class="input-group-text" style="width:180px;">Select Year</span>
             </div>
-            <select class="form-control" onchange="FilterChains()" id="datasetid" name="datasetid" >
-                <option selected> Choose the Dataset</option>
-              {% for key,value in datasets.items %}
-                <option>{{ value }}</option>
+            <select class="form-control" onchange="FilterDataset()" id="yearid" name="yearid" >
+                <option selected> Choose the year of dataset</option>
+              {% for year in yearlist %}
+                <option>{{ year }}</option>
               {% endfor %}
             </select>
           </div>
@@ -42,10 +42,10 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text" style="width:180px;">Select Chain</span>
+              <span class="input-group-text" style="width:180px;">Select Dataset</span>
             </div>
-            <select class="form-control" onchange="FilterYears()" id="chainid" name="chainid" >
-              <option selected> Choose the Chain</option>
+            <select class="form-control" onchange="FilterChain()" id="datasetid" name="datasetid" >
+              <option selected> Choose the Dataset</option>
               <!---{% for key,value in chainlist.items %}
                 <option>{{ value }}</option>
               {% endfor %} -->
@@ -56,10 +56,10 @@
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text" style="width:180px;">Select Year</span>
+              <span class="input-group-text" style="width:180px;">Select Chain</span>
             </div>
-            <select class="form-control" id="yearid" name="yearid">
-              <option selected> Choose the Year</option>
+            <select class="form-control"  id="chainid" name="chainid">
+              <option selected> Choose the Chain</option>
               <!--{% for key,value in yearlist.items %}
                 <option>{{ value }}</option>
               {% endfor %}-->
@@ -88,7 +88,7 @@
                         {% if messages %}
                             <ul class="messages">
                                 {% for message in messages %}
-                                    <div class="alert alert-success" role="alert">
+                                    <div class="alert alert-{{ message.extra_tags}}" role="alert">
                                         <strong>{{ message }}</strong>
                                     </div>
                                 {% endfor %}
@@ -106,50 +106,51 @@
 {% block script %}
 <script>
 
-function FilterChains()
+function FilterDataset()
 {
-      var e = document.getElementById("datasetid");
-      var strdataset = e.options[e.selectedIndex].text;
-      console.log(strdataset);
-      var chainlist = [];
+
+      var e = document.getElementById("yearid");
+      var year = e.options[e.selectedIndex].text;
+      //console.log(year);
+      var datasets = [];
       var count = 0;
-      {% for key,value in combodict.items %}
-          if("{{ value.1 }}" == strdataset)
-          {   chainlist[count]= "{{ value.2 }}";
+      {% for key,value in datasetlist.items %}
+          if("{{ value.2 }}" == year)
+          {   datasets[count]= "{{ value.0 }}";
               count = count + 1;
           }
       {% endfor %}
-      console.log(chainlist);
+      //console.log(year);
       //document.getElementById("chainid").innerHTML = chainlist;
 
-      var select = document.getElementById("chainid");
-      for(chain in chainlist) {
-          select.options[select.options.length] = new Option(chainlist[chain]);
+      var select = document.getElementById("datasetid");
+      for(dataset in datasets) {
+          select.options[select.options.length] = new Option(datasets[dataset]);
       }
 }
 
-function FilterYears()
+function FilterChain()
 {
-      var e = document.getElementById("datasetid");
-      var e1 = document.getElementById("chainid");
-      var strdataset = e.options[e.selectedIndex].text;
-      var strchain = e1.options[e1.selectedIndex].text;
-      console.log(strdataset);
-      console.log(strchain);
-      var yearlist = [];
+      var e = document.getElementById("yearid");
+      var e1 = document.getElementById("datasetid");
+      var year = e.options[e.selectedIndex].text;
+      var dataset = e1.options[e1.selectedIndex].text;
+      //console.log(strdataset);
+      //console.log(strchain);
+      var chainlist = [];
       var count = 0;
-      {% for key,value in combodict.items %}
-          if("{{ value.1 }}" == strdataset)
-              if("{{ value.2 }}" == strchain)
-              {     yearlist[count]= {{ value.3 }};
+      {% for key,value in datasetlist.items %}
+          if("{{ value.0 }}" == dataset)
+              if("{{ value.2 }}" == year)
+              {     chainlist[count]= "{{ value.1 }}";
                     count = count + 1;
               }
       {% endfor %}
 
-      console.log(yearlist)
-      var select = document.getElementById("yearid");
-      for(year in yearlist) {
-          select.options[select.options.length] = new Option(yearlist[year]);
+      //console.log(yearlist)
+      var select = document.getElementById("chainid");
+      for(chain in chainlist) {
+          select.options[select.options.length] = new Option(chainlist[chain]);
       }
 }
 

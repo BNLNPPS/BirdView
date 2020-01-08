@@ -17,6 +17,97 @@
 
 {% block content %}
 
+
+<div class="card">
+    <div class="card-header">
+        Search for specific dataset on disk
+    </div>
+    <div class="card-body">
+      <!--<form method="post" >{% csrf_token %}-->
+        <!--<div class="form-group">-->
+          <!--<div class="input-group">-->
+            <!--<div class="input-group-prepend">-->
+              <!--<span class="input-group-text" style="width:180px;">Select Collision</span>-->
+            <!--</div>-->
+            <!--<select class="form-control" onchange="FilterYear()" id="collid" name="collid" >-->
+                <!--<option selected> Choose the collision</option>-->
+              <!--{% for coll in collist %}-->
+                <!--<option>{{ coll }}</option>-->
+              <!--{% endfor %}-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--<h4></h4>-->
+        <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+          <!--<div class="input-group">-->
+            <!--<div class="input-group-prepend">-->
+              <!--<span class="input-group-text" style="width:180px;">Select Year</span>-->
+            <!--</div>-->
+            <!--<select class="form-control" onchange="FilterProdTag()" id="yearid" name="yearid" >-->
+              <!--<option selected> Choose the year</option>-->
+              <!--&lt;!&ndash;-{% for key,value in chainlist.items %}-->
+                <!--<option>{{ value }}</option>-->
+              <!--{% endfor %} &ndash;&gt;-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--<h4></h4>-->
+        <!--<div class="form-group">-->
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Production Tag</span>
+            </div>
+            <select class="form-control" onchange="FilterTrigger()" id="prodtagid" name="prodtagid">
+              <option selected> Choose the production tag</option>
+              <!--{% for key,value in yearlist.items %}
+                <option>{{ value }}</option>
+              {% endfor %}-->
+            </select>
+          </div>
+        <!--</div>-->
+          <h4></h4>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Trigger set</span>
+            </div>
+            <select class="form-control" onchange="FilterChain()" id="trigid" name="trigid">
+              <option selected> Choose the trigger set</option>
+              <!--{% for key,value in yearlist.items %}
+                <option>{{ value }}</option>
+              {% endfor %}-->
+            </select>
+          </div>
+          <h4></h4>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Disks</span>
+            </div>
+            <input class="form-control" type="text" name="disks" id="disks" >
+            </select>
+          </div>
+        </div>
+
+        <!--<button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>-->
+        <h4></h4>
+        <div class="form-group">
+                  <div class="input-group mb-3">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.extra_tags}}" role="alert">
+                                        <strong>{{ message }}</strong>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                  </div>
+        </div>
+
+      <!--</form>-->
+    </div>
+</div>
+
 <div class="card">
     <div class="card-header">
         Disk Status
@@ -27,8 +118,8 @@
               <table class="table table-hover table-bordered" id="imptable">
                 <thead>
                   <tr>
-                    <th scope="col">Disk Name</th>
                     <th scope="col">Percentage</th>
+                    <th scope="col">Disk Name</th>
                   </tr>
                 </thead>
                 <tbody>

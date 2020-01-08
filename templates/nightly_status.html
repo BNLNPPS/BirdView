@@ -37,7 +37,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" style="width:160px;">DatasetID</span>
                         </div>
-                        <input class="form-control" type="text" name="datasetid" id="datasetid">
+                        <input class="form-control" type="text" name="datasetid" id="datasetid" placeholder="click on any cell in the row/column">
                         </div>
                         <h4></h4>
                         <div class="input-group">
@@ -77,14 +77,14 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" style="width:160px;">DatasetID</span>
                         </div>
-                        <input class="form-control" type="text" name="dccid" id="dccid">
+                        <input class="form-control" type="text" name="dccid" id="dccid" placeholder="click on any cell in the row/column">
                         </div>
                         <h4></h4>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" style="width:160px;">Dataset</span>
                         </div>
-                        <input class="form-control" type="text" name="dsid" id="dsid">
+                        <input class="form-control" type="text" name="dsid" id="dsid" >
                     </div>
                     <h4></h4>
                     <div class="input-group">
@@ -105,6 +105,20 @@
                 </div>
               </div>
               </div>
+              </div>
+              <h4></h4>
+              <div class="form-group">
+                  <div class="input-group mb-3">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.extra_tags}}" role="alert">
+                                        <strong>{{ message }}</strong>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                  </div>
               </div>
           </div>
           <div class="form-group">

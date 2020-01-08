@@ -19,6 +19,96 @@
 
 <div class="card">
     <div class="card-header">
+        Search for Specific Chain
+    </div>
+    <div class="card-body">
+      <!--<form method="post" >{% csrf_token %}-->
+        <!--<div class="form-group">-->
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Collision</span>
+            </div>
+            <select class="form-control" onchange="FilterYear()" id="collid" name="collid" >
+                <option selected> Choose the collision</option>
+              {% for coll in collist %}
+                <option>{{ coll }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        <!--</div>-->
+          <h4></h4>
+        <!--<div class="form-group">-->
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Year</span>
+            </div>
+            <select class="form-control" onchange="FilterProdTag()" id="yearid" name="yearid" >
+              <option selected> Choose the year</option>
+              <!---{% for key,value in chainlist.items %}
+                <option>{{ value }}</option>
+              {% endfor %} -->
+            </select>
+          </div>
+        <!--</div>-->
+          <h4></h4>
+        <!--<div class="form-group">-->
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Production Tag</span>
+            </div>
+            <select class="form-control" onchange="FilterTrigger()" id="prodtagid" name="prodtagid">
+              <option selected> Choose the production tag</option>
+              <!--{% for key,value in yearlist.items %}
+                <option>{{ value }}</option>
+              {% endfor %}-->
+            </select>
+          </div>
+        <!--</div>-->
+          <h4></h4>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Select Trigger set</span>
+            </div>
+            <select class="form-control" onchange="FilterChain()" id="trigid" name="trigid">
+              <option selected> Choose the trigger set</option>
+              <!--{% for key,value in yearlist.items %}
+                <option>{{ value }}</option>
+              {% endfor %}-->
+            </select>
+          </div>
+          <h4></h4>
+        <!--<div class="form-group">-->
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width:180px;">Chain</span>
+            </div>
+            <input class="form-control" type="text" name="chainid" id="chainid" >
+            </select>
+          </div>
+        <!--</div>-->
+
+        <!--<button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>-->
+        <h4></h4>
+        <div class="form-group">
+                  <div class="input-group mb-3">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.extra_tags}}" role="alert">
+                                        <strong>{{ message }}</strong>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                  </div>
+        </div>
+
+      <!--</form>-->
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
         Chain Details
     </div>
     <div class="card-body">
@@ -49,3 +139,115 @@
 </div>
 
 {% endblock content %}
+
+
+{% block script %}
+<script>
+
+function FilterYear()
+{
+      var e = document.getElementById("collid");
+      var collid = e.options[e.selectedIndex].text;
+      var years = [];
+      var count = 0;
+      {% for key,value in dict.items %}
+          if("{{ value.1 }}" == collid)
+          {
+              if(!years.includes("{{ value.2 }}"))
+              {   years[count]= "{{ value.2 }}";
+                  count = count + 1;
+              }
+          }
+      {% endfor %}
+      var select = document.getElementById("yearid");
+      for(year in years) {
+          select.options[select.options.length] = new Option(years[year]);
+      }
+}
+
+function FilterProdTag()
+{
+      var e = document.getElementById("collid");
+      var collid = e.options[e.selectedIndex].text;
+      var e1 = document.getElementById("yearid");
+      var yearid = e1.options[e1.selectedIndex].text;
+      var prodtags = [];
+      var count = 0;
+      {% for key,value in dict.items %}
+          if("{{ value.1 }}" == collid)
+          {
+              if("{{ value.2 }}" == yearid)
+              {
+                    if(!prodtags.includes("{{ value.3 }}"))
+                    {   prodtags[count]= "{{ value.3 }}";
+                        count = count + 1;
+                    }
+              }
+          }
+      {% endfor %}
+      var select = document.getElementById("prodtagid");
+      for(prodtag in prodtags) {
+          select.options[select.options.length] = new Option(prodtags[prodtag]);
+      }
+}
+
+function FilterTrigger()
+{
+      var e = document.getElementById("collid");
+      var collid = e.options[e.selectedIndex].text;
+      var e1 = document.getElementById("yearid");
+      var yearid = e1.options[e1.selectedIndex].text;
+      var e2 = document.getElementById("prodtagid");
+      var prodtagid = e2.options[e2.selectedIndex].text;
+      var triggers = [];
+      var count = 0;
+      {% for key,value in dict.items %}
+          if("{{ value.1 }}" == collid)
+          {
+              if("{{ value.2 }}" == yearid)
+              {
+                  if("{{ value.3 }}" == prodtagid)
+                  {
+                       if(!triggers.includes("{{ value.0 }}"))
+                       {   triggers[count]= "{{ value.0 }}";
+                           count = count + 1;
+                       }
+                  }
+              }
+          }
+      {% endfor %}
+      var select = document.getElementById("trigid");
+      for(trigger in triggers) {
+          select.options[select.options.length] = new Option(triggers[trigger]);
+      }
+}
+
+function FilterChain()
+{
+      var e = document.getElementById("collid");
+      var collid = e.options[e.selectedIndex].text;
+      var e1 = document.getElementById("yearid");
+      var yearid = e1.options[e1.selectedIndex].text;
+      var e2 = document.getElementById("prodtagid");
+      var prodtagid = e2.options[e2.selectedIndex].text;
+      var e3 = document.getElementById("trigid");
+      var trigid = e3.options[e3.selectedIndex].text;
+      {% for key,value in dict.items %}
+          if("{{ value.1 }}" == collid)
+          {
+              if("{{ value.2 }}" == yearid)
+              {
+                  if("{{ value.3 }}" == prodtagid)
+                  {
+                      if("{{ value.0 }}" == trigid)
+                      {
+                          document.getElementById('chainid').value = "{{ value.4 }}"
+                      }
+                  }
+              }
+          }
+      {% endfor %}
+}
+
+</script>
+{% endblock script %}
