@@ -169,24 +169,11 @@ def production_pico(request):
             starttime = request.POST['starttime']
             endtime = request.POST['endtime']
             year = request.POST['year']
-            # dict_output = production_process.GetPicoStatus(year,starttime,endtime)
-            # labels = dict_output.get("datelist")
-            # datasetlist = dict_output.get("datasetlist")
-            # datas = dict_output.get("jobcountmatrix")
-            # paraid1 = "No of jobs"
-            # length = len(datasetlist)
-            # dataformat = []
-            # for z in range(len(datasetlist)):
-            #     data = []
-            #     for x in range(len(labels)):
-            #         # for y in range(len(datasetlist)):
-            #             data.append(datas[x][z])
-            #
-            #     dataformat.append(data)
-            # # print(datasetlist)
-            # # print(labels)
-            # #print(dataformat)
-            # return render(request, "production_pico.html", locals())
+
+            if year.find("Choose the ") >= 0 or len(starttime) == 0 or len(endtime) == 0:
+                messages.error(request, 'Choose all options correctly!!!', extra_tags='danger')
+                return render(request, "production_pico.html", locals())
+
         dict_output = production_process.GetPicoStatus(year, starttime, endtime)
         #print(dict_output)
         labels = dict_output.get("datelist")
@@ -210,6 +197,15 @@ def production_chains(request):
     #     return redirect('/login')
     # else:
         dict = production_process.GetChainDetails()
+        collist = []
+        # chainlist = []
+        for row in dict:
+            arow = dict.get(row)
+            # chainlist.append(arow)
+            if arow[1] not in collist:
+               collist.append(arow[1])
+
+        collist.sort()
         return render(request,"production_chains.html", locals())
 
 def notification(request):
@@ -368,24 +364,48 @@ def nightly_add(request):
           return render(request,"nightly_add.html")
 
 def nightly_status(request):
+      dictionaryResult = nightly_process.fetchPrecisionTable()
+      dict = dictionaryResult.get("dictionary")
+      parameters = dict
+
       if request.method == "POST" and 'graph' in request.POST:
+              #print(request.POST)
               datasetid = request.POST['datasetid']
               paraid1 = request.POST['para']
-              time1 = request.POST['starttime']
-              time2 = request.POST['endtime']
-              datasetid1 = nightly_process.fetchDataset(datasetid)
+              if paraid1.find('Choose the Parameter')>=0:
+                  messages.error(request, 'Need to select the paramter!!!', extra_tags='danger')
+              else:
+                  time1 = request.POST['starttime']
+                  time2 = request.POST['endtime']
+                  datasetinfo = nightly_process.fetchDatasetChainYear(datasetid)
+                  datasetid1 = datasetinfo.get("dataset")
+                  chainid1 = datasetinfo.get("chain")
+                  yearid1 = datasetinfo.get("year")
+                  newstarttime = str(datetime.strptime(time1, "%Y-%m-%d") - timedelta(7))
+                  newendtime = str(datetime.strptime(time2, "%Y-%m-%d") + timedelta(7))
+                  wtime = newstarttime.split(" ")[0] + " ~ " + newendtime.split(" ")[0]
+                  result = nightly_process.fetchgraphdata(datasetid, paraid1, newstarttime, newendtime)
+                  labels = []
+                  datas = []
+                  for value in result:
+                      labels.append(value.split(" ")[0])
+                      datas.append(result[value])
+                  return render(request, "nightly_plot_graph2.html", locals())
 
-              newstarttime = str(datetime.strptime(time1, "%Y-%m-%d") - timedelta(7))
-              newendtime = str(datetime.strptime(time2, "%Y-%m-%d") + timedelta(7))
-
-              result = nightly_process.fetchgraphdata(datasetid, paraid1, newstarttime, newendtime)
+      if request.method == "POST" and 'graph1' in request.POST:
+              datasetid1 = request.POST['datasetid']
+              paraid1 = request.POST['paraid']
+              chainid1 = request.POST['chainid']
+              yearid1 = request.POST['yearid']
+              wtime = request.POST['wtime']
+              timelist = wtime.split(" ~ ")
+              comboid = nightly_process.getComboID(datasetid1, chainid1, yearid1)
+              result = nightly_process.fetchgraphdata(comboid, paraid1, timelist[0], timelist[1])
               labels = []
               datas = []
               for value in result:
                   labels.append(value.split(" ")[0])
                   datas.append(result[value])
-              # print(datas)
-              # print(labels)
               return render(request, "nightly_plot_graph2.html", locals())
 
       ############ to show the details of ID on status page ################
@@ -404,9 +424,9 @@ def nightly_status(request):
 
       weekeback = getWeekbackDate()
       query = "select * from DatasetResultChange where DayTime1>"+"'"+weekeback+"'"
-      print(query)
-      dictionaryResult = nightly_process.fetchPrecisionTable()
-      dict = dictionaryResult.get("dictionary")
+      #print(query)
+      # dictionaryResult = nightly_process.fetchPrecisionTable()
+      # dict = dictionaryResult.get("dictionary")
       # print(dict)
       column_names = nightly_process.DescribeTable("DatasetResultChange")
       # print(column_names)
@@ -474,30 +494,37 @@ def nightly_premod(request):
         return render(request,"nightly_premod.html",locals())
 
 def nightly_plot(request):
+      resultdict = nightly_process.fetchPrecisionTable()
+      parameters = resultdict.get("dictionary")
+      datasetid = resultdict.get("dataset")
+
       if request.method == "POST" and 'search' in request.POST:
-              datasetid = request.POST['datasetid']
-              chainid = request.POST['chainid']
-              yearid = request.POST['yearid']
+              datasetid1 = request.POST['datasetid']
+              chainid1 = request.POST['chainid']
+              yearid1 = request.POST['yearid']
               starttime = request.POST['starttime']
               endtime = request.POST['endtime']
               para = request.POST['paraid']
-              #print(datasetid+"-"+chainid+"-"+yearid+"-"+starttime+"-"+endtime+"-"+para)
-              comboid = nightly_process.getComboID(datasetid,chainid,yearid)
-              #print(comboid)
-              #result = nightly_process.gatherData(comboid,starttime,endtime,para)
-              query = "select * from DatasetResultChange where DatasetChainComboID="+str(comboid)+" and DayTime1>'" + starttime + "' and DayTime2<'"+endtime+"'"
-              #print(query)
-              dictionaryResult = nightly_process.fetchPrecisionTable()
 
-              dict = dictionaryResult.get("dictionary")
-              result = dbaccess.ExecuteQuery(query)
-              dictresult = CreateTableContent(result)
-              except_list = ["DatasetChainComboID", "DayTime1", "DayTime2"]
-              return render(request, "nightly_plot_details.html", locals())
+              if datasetid1.find("Choose the ")>=0 or chainid1.find("Choose the ")>=0 or yearid1.find("Choose the ")>=0 or para.find("Choose the ")>=0 \
+                 or len(starttime)==0 or len(endtime)==0:
+                  messages.error(request, 'Choose all options correctly!!!', extra_tags='danger')
+              else:
+                  comboid = nightly_process.getComboID(datasetid1,chainid1,yearid1)
+                  #result = nightly_process.gatherData(comboid,starttime,endtime,para)
+                  query = "select * from DatasetResultChange where DatasetChainComboID="+str(comboid)+" and DayTime1>'" + starttime + "' and DayTime2<'"+endtime+"'"
+                  #print(query)
+                  dictionaryResult = nightly_process.fetchPrecisionTable()
+
+                  dict = dictionaryResult.get("dictionary")
+                  result = dbaccess.ExecuteQuery(query)
+                  dictresult = CreateTableContent(result)
+                  except_list = ["DatasetChainComboID", "DayTime1", "DayTime2"]
+                  return render(request, "nightly_plot_details.html", locals())
 
       if request.method == "POST" and 'graph' in request.POST:
               #print(request.POST)
-              datasetid1 = request.POST['graph']
+              datasetid1 = request.POST['dataset']
               paraid1 = request.POST['para']
               time1 = request.POST['time1']
               time2 = request.POST['time2']
@@ -508,25 +535,41 @@ def nightly_plot(request):
 
               newstarttime = str(datetime.strptime(time1,"%Y-%m-%d")-timedelta(7))
               newendtime = str(datetime.strptime(time2,"%Y-%m-%d")+timedelta(7))
-
+              wtime = newstarttime.split(" ")[0] + " ~ " + newendtime.split(" ")[0]
+              # print(wtime)
               result = nightly_process.fetchgraphdata(comboid,paraid1,newstarttime,newendtime)
               #print(result)
               labels = []
               datas = []
               for value in result:
-                  labels.append(value)
+                  labels.append(value.split(" ")[0])
                   datas.append(result[value])
               #print(labels)
               #print(datas)
               return render(request, "nightly_plot_graph2.html", locals())
 
+      if request.method == "POST" and 'graph1' in request.POST:
+              datasetid1 = request.POST['datasetid']
+              paraid1 = request.POST['paraid']
+              chainid1 = request.POST['chainid']
+              yearid1 = request.POST['yearid']
+              wtime = request.POST['wtime']
+              timelist = wtime.split(" ~ ")
+              comboid = nightly_process.getComboID(datasetid1, chainid1, yearid1)
+              result = nightly_process.fetchgraphdata(comboid, paraid1, timelist[0], timelist[1])
+              labels = []
+              datas = []
+              for value in result:
+                  labels.append(value.split(" ")[0])
+                  datas.append(result[value])
+              return render(request, "nightly_plot_graph2.html", locals())
+
+
       datasets = nightly_process.fetchDatasetlist()
       #chains = nightly_process.fetchChainlist()
       #years = nightly_process.fetchYearlist()
-      resultdict = nightly_process.fetchPrecisionTable()
       combodict = nightly_process.fetchDatasetChainCombo()
-      parameters = resultdict.get("dictionary")
-      datasetid = resultdict.get("dataset")
+
       return render(request,"nightly_plot.html",locals())
 
 
@@ -575,30 +618,36 @@ def nightly_compare(request):
                 datasetid1 = request.POST['datasetid1']
                 chainid1 = request.POST['chainid1']
                 yearid1 = request.POST['yearid1']
-                comboid1 = nightly_process.getComboID(datasetid1, chainid1, yearid1)
+
 
                 datasetid2 = request.POST['datasetid2']
                 chainid2 = request.POST['chainid2']
                 yearid2 = request.POST['yearid2']
-                comboid2 = nightly_process.getComboID(datasetid2, chainid2, yearid2)
+
 
                 time1 = request.POST['starttime']
                 time2 = request.POST['endtime']
                 paraid1 = request.POST['paraid']
 
-                result1 = nightly_process.fetchgraphdata(comboid1, paraid1, time1, time2)
+                if datasetid1.find("Choose the ") >= 0 or chainid1.find("Choose the ") >= 0 or yearid1.find("Choose the ") >= 0 or paraid1.find("Choose the ") >= 0 \
+                        or len(time1) == 0 or len(time2) == 0 or \
+                   datasetid2.find("Choose the ") >= 0 or chainid2.find("Choose the ") >= 0 or yearid2.find("Choose the ") >= 0:
+                    messages.error(request, 'Choose all options correctly!!!', extra_tags='danger')
+                else:
+                    comboid1 = nightly_process.getComboID(datasetid1, chainid1, yearid1)
+                    result1 = nightly_process.fetchgraphdata(comboid1, paraid1, time1, time2)
+                    comboid2 = nightly_process.getComboID(datasetid2, chainid2, yearid2)
+                    result2 = nightly_process.fetchgraphdata(comboid2, paraid1, time1, time2)
 
-                result2 = nightly_process.fetchgraphdata(comboid2, paraid1, time1, time2)
-
-                dict = getGraphData(result1,result2)
-                # print(dict)
-                labels1 = dict.get("labels")
-                length = len(labels1)
-                datas1 = dict.get("datas1")
-                datas2 = dict.get("datas2")
-                datasets = datasetid1+" , "+datasetid2
-                wtime = time1+" ~ "+time2
-                return render(request, "nightly_plot_graph.html", locals())
+                    dict = getGraphData(result1,result2)
+                    # print(dict)
+                    labels1 = dict.get("labels")
+                    length = len(labels1)
+                    datas1 = dict.get("datas1")
+                    datas2 = dict.get("datas2")
+                    datasets = datasetid1+" , "+datasetid2
+                    wtime = time1+" ~ "+time2
+                    return render(request, "nightly_plot_graph.html", locals())
 
 
         return render(request, "nightly_compare.html", locals())
@@ -654,21 +703,22 @@ def nightly_library(request):
         chainid = request.POST['chainid']
         yearid = request.POST['yearid']
         paraid = request.POST['paraid']
-        #comboid = nightly_process.getComboID(datasetid, chainid, yearid)
-        result = nightly_process.fetch_Library_data(datasetid, paraid, chainid)
-        if bool(result):
-            labels = []
-            datas = []
-            for value in result:
-                labels.append(result[value][0])
-                datas.append(result[value][1])
-
-            #print(labels)
-            #print(datas)
-            return render(request, "nightly_library_graph.html", locals())
+        if datasetid.find("Choose the ") >= 0 or chainid.find("Choose the ") >= 0 or yearid.find("Choose the ") >= 0 or paraid.find("Choose the ") >= 0:
+            messages.error(request, 'Choose all options correctly!!!', extra_tags='danger')
         else:
-            messages.error(request, 'Choosen dataset does not have result!!!', extra_tags='danger')
-            #return render(request, "nightly_library.html", locals())
+        #comboid = nightly_process.getComboID(datasetid, chainid, yearid)
+            result = nightly_process.fetch_Library_data(datasetid, paraid, chainid)
+            if bool(result):
+               labels = []
+               datas = []
+               for value in result:
+                   labels.append(result[value][0])
+                   datas.append(result[value][1])
+
+               return render(request, "nightly_library_graph.html", locals())
+            else:
+               messages.error(request, 'Choosen dataset does not have result!!!', extra_tags='danger')
+
 
     if request.method == "POST" and 'graph1' in request.POST:
         # print(request.POST)
@@ -698,7 +748,7 @@ def nightly_library(request):
     yearlist = selectionlist.get("years")
     datasetlist = selectionlist.get("rows")
     #print(combodict)
-    return render(request, "nightly_library-2.html", locals())
+    return render(request, "nightly_library.html", locals())
 
 
 # def getYesterdayDate():

@@ -99,6 +99,19 @@ def fetchDataset(id):
             dataset = line[0]
             return dataset
 
+def fetchDatasetChainYear(id):
+    result = dbaccess.ExecuteQuery("select * from DatasetChainCombo where ID=" + id)
+    if result.get("count") == 1:
+        resultdict = result.get("output");
+        for line in resultdict:
+            dataset = line[1]
+            chain = line[2]
+            year = line[3]
+    dict = {}
+    dict["dataset"] = dataset
+    dict["chain"] = chain
+    dict["year"] = year
+    return dict
 
 def fetchDatasetlist():
     #query = "select ID,Dataset from DatasetChainCombo"
@@ -154,6 +167,7 @@ def UpdateParameter(parameter,value,dataset=0):
 def getComboID(datasetid,chainid,yearid):
     query = "select ID from DatasetChainCombo where Dataset='"+datasetid+"' and ChainOpt='"+chainid+"' and Prodyear="+yearid+""
     result = dbaccess.dbexecute(query)
+    #print(query)
     for id in result:
         dsid=id[0]
     return dsid
@@ -172,7 +186,7 @@ def gatherData(comboid,starttime,endtime,parameter):
 
 def fetchgraphdata(datasetid, parameter, starttime, endtime):
     query = "select createTime,"+parameter+" from JobStatus where DatasetChainID="+str(datasetid)+" and createTime>='"+starttime+"' and createTime<='"+endtime+"' and jobStatus='Done'"
-    print(query)
+    #print(query)
     result = dbaccess.dbexecute(query)
 
     resultdict = {}

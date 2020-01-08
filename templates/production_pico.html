@@ -57,6 +57,20 @@
           <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
         </form>
     </div>
+    <h4></h4>
+    <div class="form-group">
+                  <div class="input-group mb-3">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.extra_tags}}" role="alert">
+                                        <strong>{{ message }}</strong>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                  </div>
+    </div>
 </div>
 
 <div class="card">
