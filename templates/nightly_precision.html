@@ -7,7 +7,7 @@
   <!--<a class="nav-link" href="/nightly">Nightly Tests</a>-->
   <!--<a class="nav-link" href="/nightly/add">Add New Test</a>-->
   <a class="nav-link active" href="/nightly/precision">Precision</a>
-  <a class="nav-link" href="/nightly/premodify">Precision Modification</a>
+  <!--<a class="nav-link" href="/nightly/premodify">Precision Modification</a>-->
   <a class="nav-link" href="/nightly/status">Week Status</a>
   <a class="nav-link" href="/nightly/plot">Dataset Change Identification</a>
   <a class="nav-link" href="/nightly/compare">Dataset Compare</a>
@@ -20,9 +20,23 @@
 {% block content %}
 
 <div class="card">
-    <div class="card-header">
-        Precision Details For
-    </div>
+     <form method="post" >{% csrf_token %}
+            <div class="card-header">
+                <div class="row" >
+                    <div class="col-lg-9">
+                        Precision Details:
+                    </div>
+                    <div class="col-lg-3">
+                        <!--<button type="submit" class="btn btn-primary" name="add" value="Add">Add</button>-->
+                        <div class="row">
+                        Precision Modification:&nbsp;
+                        <button type="submit" class="btn btn-primary" name="update" value="Update">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+     </form>
+
     <div class="card-body">
         <table class="table table-hover table-bordered">
           <thead>
@@ -40,6 +54,20 @@
             {% endfor %}
           </tbody>
         </table>
+    </div>
+    <h4></h4>
+    <div class="form-group">
+                  <div class="input-group mb-3">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.extra_tags}}" role="alert">
+                                        <strong>{{ message }}</strong>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                  </div>
     </div>
 </div>
 

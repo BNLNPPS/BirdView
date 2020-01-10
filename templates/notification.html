@@ -25,9 +25,9 @@
 
 <nav class="nav flex-column nav-pills">
   <a class="nav-link active" href="/notification">Notifications</a>
-  <a class="nav-link" href="/notification/add">Add</a>
-  <a class="nav-link" href="/notification/remove">Remove</a>
-  <a class="nav-link" href="/notification/modify">Modify</a>
+  <!--<a class="nav-link" href="/notification/add">Add</a>-->
+  <!--<a class="nav-link" href="/notification/remove">Remove</a>-->
+  <!--<a class="nav-link" href="/notification/modify">Modify</a>-->
   <!---<a class="nav-link disabled" href="#">Disabled</a>-->
 </nav>
 
@@ -35,6 +35,23 @@
 
 {% block content %}
 <div class="card">
+  <form method="post" >{% csrf_token %}
+            <div class="card-header">
+                <div class="row" >
+                    <div class="col-lg-9">
+                        Notification Details:
+                    </div>
+                    <div class="col-lg-3">
+                        <!--<button type="submit" class="btn btn-primary" name="add" value="Add">Add</button>-->
+                        <div class="row">
+                        <button type="submit" class="btn btn-primary" name="add" value="add">Add</button>&nbsp;
+                        <button type="submit" class="btn btn-primary" name="update" value="update">Update</button>&nbsp;
+                        <button type="submit" class="btn btn-primary" name="remove" value="remove">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+     </form>
   <div class="card-body">
     <form method="post">{% csrf_token %}
         <table class="table table-hover table-bordered" id="imptable">

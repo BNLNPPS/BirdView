@@ -228,12 +228,21 @@ def notification(request):
             valarray.pop(0) # removing id from the list
             dictresult[line[0]] = valarray
     else:
-        messages.error(request, 'There are no notofocations!!!', extra_tags='danger')
+        messages.error(request, 'There are no notifications!!!', extra_tags='danger')
+    if request.method == "POST":
+        # print(request.POST)
+        if 'add' in request.POST:
+            return notification_add(request)
+        if 'update' in request.POST:
+            return notification_modify(request)
+        if 'remove' in request.POST:
+            return notification_remove(request)
     return render(request,"notification.html", locals())
 
 def notification_add(request):
     if not request.user.is_authenticated:
-        # messages.success(request, "This action requires to authenticate..")
+        #messages.success(request, "This action requires to authenticate..")
+        #messages.error(request, 'Need to login...!!!', extra_tags='danger')
         return redirect('/login')
     else:
         if request.method == "POST" and 'submit' in request.POST:
@@ -315,7 +324,7 @@ def notification_remove(request):
         # messages.success(request, "This action requires to authenticate..")
         return redirect('/login')
     else:
-        if request.method == "POST" and 'remove' in request.POST:
+        if request.method == "POST" and 'remove1' in request.POST:
             notename = request.POST['notename']
             query = "delete from Notification where Name='"+notename+"' and ID>0"
             result = dbaccess.ExecuteQuery(query)
@@ -461,6 +470,23 @@ def nightly_pre(request):
       dictionaryResult = nightly_process.fetchPrecisionTable()
       dict = dictionaryResult.get("dictionary")
       datasetid = dictionaryResult.get("dataset")
+      # print(request.POST)
+      if request.method == "POST" and 'update' in request.POST:
+          if not request.user.is_authenticated:
+              return redirect('/login')
+          else:
+              return render(request, "nightly_premod.html", locals())
+
+      if request.method == "POST" and 'update1' in request.POST:
+          parameter = request.POST['para']
+          value = request.POST['val']
+          result = nightly_process.UpdateParameter(parameter, value)
+          if result.get("count") == 1:
+              messages.success(request, 'Value is updated successfully', extra_tags='success')
+          else:
+              messages.error(request, 'Value is not updated!!!', extra_tags='danger')
+          return render(request, "nightly_premod.html", locals())
+
       return render(request,"nightly_precision.html",locals())
 
 def nightly_premod(request):
