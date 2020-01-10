@@ -25,7 +25,7 @@ SECRET_KEY = 'ydd5w=!@md_e%9k#ar25%#5#2(40694f82k$o)rnevrm*riz2l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['birdview.sdcc.bnl.gov', 'nppsweb01.sdcc.bnl.local','127.0.0.1']
 
 
 # Application definition
