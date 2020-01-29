@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block navbar %}
+<ul class="navbar-nav">
+    <!--<li class="nav-item">-->
+        <!--<a class="nav-link" href="/infra">Infrastructure</a>-->
+    <!--</li>-->
+    <!--<li class="nav-item">-->
+        <!--<a class="nav-link" href="/datarequest">Data Request</a>-->
+    <!--</li>-->
+    <li class="nav-item">
+        <a class="nav-link" href="/nightly">Nightly Test</a>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link" href="/production">Production</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/notification">Notification</a>
+    </li>
+</ul>
+{% endblock navbar %}
+
+
+{% block sidebar %}
+
+<nav class="nav flex-column nav-pills">
+  <a class="nav-link active" href="/production">Current Production</a>
+  <a class="nav-link" href="/production/picoprogress">PicoDst Conversion</a>
+  <a class="nav-link" href="/production/disks">Disk status</a>
+  <a class="nav-link" href="/production/chains">Chain Details</a>
+  <a class="nav-link" href="/production/prediction">Production Prediction</a>
+  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
+</nav>
+
+{% endblock sidebar %}
+
+{% block content %}
+<form method="post">{% csrf_token %}
+<div class="card">
+    <div class="card-header">
+
+        <div class="row">
+            <div class="col-sm-10">
+                Star New Production
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary" name="cancel" value="cancel">cancel</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Trigger Set Name</span>
+            </div>
+            <input class="form-control" type="text" name="datasetid" id="datasetid" placeholder="write trigger set name">
+        </div>
+        <h4></h4>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Chain</span>
+            </div>
+            <input class="form-control" type="text" name="chainid" id="chainid" placeholder="write chain">
+        </div>
+        <h4></h4>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Production Tag</span>
+            </div>
+            <input class="form-control" type="text" name="productionid" id="productionid" placeholder="write trigger set name">
+        </div>
+        <h4></h4>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Stream Data</span>
+            </div>
+            <input class="form-control" type="text" name="streamid" id="streamid" placeholder="write stream name">
+        </div>
+        <h4></h4>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Event type</span>
+            </div>
+            <input class="form-control" type="text" name="eventid" id="eventid" placeholder="write event type">
+        </div>
+        <h4></h4>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Library version</span>
+            </div>
+            <input class="form-control" type="text" name="libid" id="libid" placeholder="write library version">
+        </div>
+        <h4></h4>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Geometry</span>
+            </div>
+            <input class="form-control" type="text" name="gid" id="gid" placeholder="write geometry">
+        </div>
+        <h4></h4>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Calibration</span>
+            </div>
+            <input class="form-control" type="text" name="calid" id="calid" placeholder="write calibration">
+        </div>
+        <h4></h4>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Pico-Dst</span>
+            </div>
+            <!--<input class="form-control" type="text" name="picoid" id="picoid" placeholder="write geometry">-->
+            <select class="form-control" name="picoid" id="picoid">
+                <option selected> Choose the Yes/No</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+        <h4></h4>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" style="width:160px;">Comment</span>
+            </div>
+            <input class="form-control" type="text" name="comid" id="comid" placeholder="write comment about this production">
+        </div>
+        <h4></h4>
+        <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
+    </div>
+    <div class="form-group">
+        <div class="input-group mb-3">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.extra_tags}}" role="alert">
+                                        <strong>{{ message }}</strong>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+        </div>
+    </div>
+</div>
+</form>
+
+{% endblock content %}

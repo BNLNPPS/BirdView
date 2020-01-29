@@ -25,10 +25,6 @@
 
 <nav class="nav flex-column nav-pills">
   <a class="nav-link active" href="/notification">Notifications</a>
-  <!--<a class="nav-link" href="/notification/add">Add</a>-->
-  <!--<a class="nav-link" href="/notification/remove">Remove</a>-->
-  <!--<a class="nav-link" href="/notification/modify">Modify</a>-->
-  <!---<a class="nav-link disabled" href="#">Disabled</a>-->
 </nav>
 
 {% endblock sidebar %}
@@ -51,7 +47,7 @@
                     </div>
                 </div>
             </div>
-     </form>
+  </form>
   <div class="card-body">
     <form method="post">{% csrf_token %}
         <table class="table table-hover table-bordered" id="imptable">
@@ -67,9 +63,6 @@
           <tbody>
               {% for key,value in dictresult.items %}
                   <tr>
-                      <!--<td>{{ value.1 }}</td>
-                      <td>{{ value.2|date:"Y-m-d" }}</td>
-                      <td>{{ value.3|date:"Y-m-d" }}</td>-->
                       {% for num in value %}
                         <td >{{ num }}</td>
                       {% endfor %}

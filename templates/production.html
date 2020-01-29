@@ -39,7 +39,16 @@
 
 <div class="card">
     <div class="card-header">
-        Current Production Status
+        <form method="post">{% csrf_token %}
+        <div class="row">
+            <div class="col-sm-10">
+                Current Production Status
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary" name="add" value="add">New Production</button>
+            </div>
+        </div>
+        </form>
     </div>
     <div class="card-body">
         <div class="table-responsive">
