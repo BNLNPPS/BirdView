@@ -34,13 +34,28 @@
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-prepend">
+                      <span class="input-group-text" style="width:180px;">Select Year</span>
+                    </div>
+                    <select class="form-control" onchange="FilterDatasets('yearid1', 'datasetid1')" id="yearid1" name="yearid1">
+                      <option selected> Choose the Year</option>
+                      {% for year in yearlist %}
+                        <option>{{ year }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
                       <span class="input-group-text" style="width:180px;">Select Dataset</span>
                     </div>
-                    <select class="form-control" onchange="FilterChains('datasetid1','chainid1')" id="datasetid1" name="datasetid1" >
+                    <select class="form-control" onchange="FilterChains('yearid1', 'datasetid1','chainid1')" id="datasetid1" name="datasetid1" >
                         <option selected> Choose the Dataset</option>
-                      {% for key,value in datasets.items %}
-                        <option>{{ value }}</option>
-                      {% endfor %}
+                      <!--{% for key,value in datasets.items %}-->
+                        <!--<option>{{ value }}</option>-->
+                      <!--{% endfor %}-->
                     </select>
                   </div>
                 </div>
@@ -50,25 +65,11 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" style="width:180px;">Select Chain</span>
                     </div>
-                    <select class="form-control" onchange="FilterYears('datasetid1','chainid1','yearid1')" id="chainid1" name="chainid1" >
-                      <option selected> Choose the chain</option>
+                    <select class="form-control" id="chainid1" name="chainid1" >
+                      <option selected> Choose the Chain</option>
                       <!---{% for key,value in chainlist.items %}
                         <option>{{ value }}</option>
                       {% endfor %} -->
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" style="width:180px;">Select Year</span>
-                    </div>
-                    <select class="form-control" id="yearid1" name="yearid1">
-                      <option selected> Choose the year</option>
-                      <!--{% for key,value in yearlist.items %}
-                        <option>{{ value }}</option>
-                      {% endfor %}-->
                     </select>
                   </div>
                 </div>
@@ -83,13 +84,28 @@
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-prepend">
+                      <span class="input-group-text" style="width:180px;">Select Year</span>
+                    </div>
+                    <select class="form-control" onchange="FilterDatasets('yearid2', 'datasetid2')" id="yearid2" name="yearid2">
+                      <option selected> Choose the Year</option>
+                      {% for year in yearlist %}
+                        <option>{{ year }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
                       <span class="input-group-text" style="width:180px;">Select Dataset</span>
                     </div>
-                    <select class="form-control" onchange="FilterChains('datasetid2','chainid2')" id="datasetid2" name="datasetid2" >
+                    <select class="form-control" onchange="FilterChains('yearid2', 'datasetid2','chainid2')" id="datasetid2" name="datasetid2" >
                         <option selected> Choose the Dataset</option>
-                      {% for key,value in datasets.items %}
-                        <option>{{ value }}</option>
-                      {% endfor %}
+                      <!--{% for key,value in datasets.items %}-->
+                        <!--<option>{{ value }}</option>-->
+                      <!--{% endfor %}-->
                     </select>
                   </div>
                 </div>
@@ -99,25 +115,11 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" style="width:180px;">Select Chain</span>
                     </div>
-                    <select class="form-control" onchange="FilterYears('datasetid2','chainid2','yearid2')" id="chainid2" name="chainid2" >
-                      <option selected> Choose the chain</option>
+                    <select class="form-control" id="chainid2" name="chainid2" >
+                      <option selected> Choose the Chain</option>
                       <!---{% for key,value in chainlist.items %}
                         <option>{{ value }}</option>
                       {% endfor %} -->
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" style="width:180px;">Select Year</span>
-                    </div>
-                    <select class="form-control" id="yearid2" name="yearid2">
-                      <option selected> Choose the year</option>
-                      <!--{% for key,value in yearlist.items %}
-                        <option>{{ value }}</option>
-                      {% endfor %}-->
                     </select>
                   </div>
                 </div>
@@ -181,46 +183,56 @@
 {% block script %}
 <script>
 
-
-function FilterChains(dataset,chains)
+function FilterDatasets(yearid,datasetid)
 {
-      var e = document.getElementById(dataset);
+      var e = document.getElementById(yearid);
+      var stryearid = e.options[e.selectedIndex].text;
+      var datasetlist = [];
+      var count = 0;
+      {% for key,value in combodict.items %}
+          if("{{ value.3 }}" == stryearid)
+          {
+               if(!datasetlist.includes("{{ value.1 }}"))
+               {
+                datasetlist[count]= "{{ value.1 }}";
+                count = count + 1;
+               }
+          }
+      {% endfor %}
+      //console.log('datasetid');
+      //document.getElementById("datasetid").innerHTML = datasetlist;
+
+      var select = document.getElementById(datasetid);
+      for(dataset in datasetlist) {
+          select.options[select.options.length] = new Option(datasetlist[dataset]);
+      }
+}
+
+function FilterChains(yearid,datasetid,chainid)
+{
+      var e = document.getElementById(datasetid);
+      var e1 = document.getElementById(yearid);
       var strdataset = e.options[e.selectedIndex].text;
+      var stryearid = e1.options[e1.selectedIndex].text;
       var chainlist = [];
       var count = 0;
       {% for key,value in combodict.items %}
           if("{{ value.1 }}" == strdataset)
-          {   chainlist[count]= "{{ value.2 }}";
-              count = count + 1;
-          }
+            if("{{ value.3 }}" == stryearid)
+            {
+               if(!chainlist.includes("{{ value.2 }}"))
+               {
+                   chainlist[count]= "{{ value.2 }}";
+                   count = count + 1;
+               }
+            }
       {% endfor %}
-      chainlist.sort();
-      var select = document.getElementById(chains);
+      //console.log(chainlist);
+      //document.getElementById("chainid").innerHTML = chainlist;
+
+      var select = document.getElementById(chainid);
       for(chain in chainlist) {
           select.options[select.options.length] = new Option(chainlist[chain]);
-      }
-}
-
-function FilterYears(dataset,chain,yearid)
-{
-      var e = document.getElementById(dataset);
-      var e1 = document.getElementById(chain);
-      var strdataset = e.options[e.selectedIndex].text;
-      var strchain = e1.options[e1.selectedIndex].text;
-
-      var yearlist = [];
-      var count = 0;
-      {% for key,value in combodict.items %}
-          if("{{ value.1 }}" == strdataset)
-              if("{{ value.2 }}" == strchain)
-              {     yearlist[count]= {{ value.3 }};
-                    count = count + 1;
-              }
-      {% endfor %}
-      yearlist.sort();
-      var select = document.getElementById(yearid);
-      for(year in yearlist) {
-          select.options[select.options.length] = new Option(yearlist[year]);
       }
 }
 

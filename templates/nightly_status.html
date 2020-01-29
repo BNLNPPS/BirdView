@@ -128,6 +128,7 @@
                 <thead>
                   <tr>
                     <th scope="col">DatasetID</th>
+                    <th scope="col">Dataset-year</th>
                     <th scope="col">Date 1</th>
                     <th scope="col">Date 2</th>
                     {% for key,value in dict.items %}
@@ -168,9 +169,6 @@
 $( document ).ready(function() {
 
 
-
-
-
 var table = document.getElementById('imptable'),rIndex;
 for (var i = 0; i < table.rows.length; i++)
 {
@@ -179,8 +177,8 @@ for (var i = 0; i < table.rows.length; i++)
         rIndex = this.rowIndex;
         document.getElementById('datasetid').value = this.cells[0].innerHTML;
         document.getElementById('dccid').value = this.cells[0].innerHTML;
-        document.getElementById('starttime').value = this.cells[1].innerHTML;
-        document.getElementById('endtime').value = this.cells[2].innerHTML;
+        document.getElementById('starttime').value = this.cells[2].innerHTML;
+        document.getElementById('endtime').value = this.cells[3].innerHTML;
         getInfo();
 
     }

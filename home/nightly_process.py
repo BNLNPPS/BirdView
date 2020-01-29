@@ -61,6 +61,7 @@ def fetchPrecisionTable():
     for line in result:
         for value in line:
             valuelist.append(value)
+    #print(valuelist)
     parameterlist=[]
     for line in result1:
         parameterlist.append(line[0])
@@ -83,13 +84,19 @@ def fetchDatasetChainCombo():
     query = "select * from DatasetChainCombo"
     resultdict = dbaccess.ExecuteQuery(query)
     result = resultdict.get("output")
+    reredict = {}
     redict = { }
     redict.clear()
-
+    yearlist = []
     for row in result:
         redict[row[0]]=row
+        if row[3] not in yearlist and row[3]>0:
+            yearlist.append(row[3])
 
-    return redict
+    yearlist.sort()
+    reredict["dict"] = redict
+    reredict["yearlist"]= yearlist
+    return reredict
 
 def fetchDataset(id):
     result = dbaccess.ExecuteQuery("select Dataset from DatasetChainCombo where ID="+id)

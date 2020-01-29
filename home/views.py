@@ -119,7 +119,17 @@ def production(request):
             value.append(statlist[count])
             value.append(numblist[count])
             dict[count]= value
+
+
+        if request.method == "POST":
+            # print(request.POST)
+            if 'add' in request.POST:
+                return production_add(request)
         return render(request,"production.html", locals())
+
+
+def production_add(request):
+    return render(request, "production_new.html", locals())
 
 def production_disks(request):
     # if not request.user.is_authenticated:
@@ -440,27 +450,44 @@ def nightly_status(request):
       column_names = nightly_process.DescribeTable("DatasetResultChange")
       # print(column_names)
       result = dbaccess.ExecuteQuery(query)
-      dictresult = CreateTableContent(result)
-      except_list = ["DatasetChainComboID", "DayTime1", "DayTime2"]
+      dictresult = CreateTableContent(result,idlist,dclist,yearlist)
+      except_list = ["DatasetChainComboID", "DayTime1", "DayTime2","Dataset-year"]
       return render(request,"nightly_status.html", locals())
 
-def CreateTableContent(result):
+def CreateTableContent(result,idlist,dclist,yearlist):
     column_names = nightly_process.DescribeTable("DatasetResultChange")
+    #print(column_names)
+    column_names.insert(2,"Dataset-year")
+    #print(column_names)
     dictresult = {}
     if result.get("count") > 0:
         cur = result.get("output")
         for line in cur:
             dict_array = {}
             index = 0
+            dcid = 0
+            #print(line)
             for val in line:
+                if index==1:
+                    dcid = val
+                    #print("DCID="+str(dcid)+" Val="+str(val))
+                if index==2:
+                    point = idlist.index(dcid)
+                    dsstr = dclist[point]
+                    yrstr = yearlist[point]
+                    totalstr = str(dsstr)+"-"+str(yrstr)
+                    dict_array[column_names[2]] = totalstr
+                    #print("Dataset-year="+totalstr)
+                    index = index + 1
                 if type(val) is datetime:
-                    strd = ""
-                    strd = strd + str(val.year) + "-" + str(val.month) + "-" + str(val.day)
-                    dict_array[column_names[index]] = strd
+                       strd = ""
+                       strd = strd + str(val.year) + "-" + str(val.month) + "-" + str(val.day)
+                       dict_array[column_names[index]] = strd
                 else:
-                    dict_array[column_names[index]] = val
+                       dict_array[column_names[index]] = val
 
                 index = index + 1
+            #print(dict_array)
             dict_array.pop("ID")
             dict_array.pop("ChangeDescription")
             dictresult[line[0]] = dict_array
@@ -546,6 +573,8 @@ def nightly_plot(request):
                   result = dbaccess.ExecuteQuery(query)
                   dictresult = CreateTableContent(result)
                   except_list = ["DatasetChainComboID", "DayTime1", "DayTime2"]
+                  if result.get("count")==0:
+                      messages.error(request, 'There is no violation of precision within this period!!!', extra_tags='danger')
                   return render(request, "nightly_plot_details.html", locals())
 
       if request.method == "POST" and 'graph' in request.POST:
@@ -594,7 +623,9 @@ def nightly_plot(request):
       datasets = nightly_process.fetchDatasetlist()
       #chains = nightly_process.fetchChainlist()
       #years = nightly_process.fetchYearlist()
-      combodict = nightly_process.fetchDatasetChainCombo()
+      combodictnew = nightly_process.fetchDatasetChainCombo()
+      combodict = combodictnew.get("dict")
+      yearlist = combodictnew.get("yearlist")
 
       return render(request,"nightly_plot.html",locals())
 
@@ -605,7 +636,9 @@ def nightly_compare(request):
         # print(datasets.values())
 
         resultdict = nightly_process.fetchPrecisionTable()
-        combodict = nightly_process.fetchDatasetChainCombo()
+        combodictnew = nightly_process.fetchDatasetChainCombo()
+        combodict = combodictnew.get("dict")
+        yearlist = combodictnew.get("yearlist")
         parameters = resultdict.get("dictionary")
         datasetid = resultdict.get("dataset")
 
