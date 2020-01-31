@@ -35,8 +35,7 @@ Copyright
      Boston, MA  02111-1307  USA
 
 
----------------------------------------------------------------------------
-  Copyright 1998-2000 (c) Jerome Lauret <jlauret at mail.chem.sunysb.edu>  
-  Copyright 2000-2019 (c) Jerome Lauret <jlauret at bnl.gov>
+--------------------------------------------------------------------------- 
+  Copyright 2018-2020 (c) Amol Jaikar <amol at bnl.gov>
 ---------------------------------------------------------------------------
 
